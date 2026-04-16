@@ -1,0 +1,2 @@
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\browser-wasm\PubTmp\Out\emcc-props.json
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\browser-wasm\PubTmp\Out\web.config
