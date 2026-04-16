@@ -1038,6 +1038,11 @@ C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\refint\InvestMoi.dll
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.pdb
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\ref\InvestMoi.dll
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.sourcelink.json
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\mf70a9y5fs-agy7n9lrmu.gz
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\7vckoxwoju-pvbjyii6vs.gz
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\g95gs3y5xu-viu2dt9eir.gz
+C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\web.config
+C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\emcc-props.json
+C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\InvestMoi.staticwebassets.endpoints.json
+C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\wwwroot\sample-data\weather.json
+C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\wwwroot\_framework\blazor.boot.json
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\mf70a9y5fs-yqirkoj3em.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\7vckoxwoju-ewpo9oxhfj.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\g95gs3y5xu-6t20ngdsou.gz

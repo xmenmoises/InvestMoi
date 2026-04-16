@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InvestMoi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2f1b5b05eee6ce0af1e2c6976e0e1bcd80ec166")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+53a1663dec4e4ff8ae5f3085b2ccfcf0e098201c")]
 [assembly: System.Reflection.AssemblyProductAttribute("InvestMoi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InvestMoi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

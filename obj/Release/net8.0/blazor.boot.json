@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "InvestMoi",
   "resources": {
-    "hash": "sha256-oZwDqBHpCFZzPuwTKMCQB+UT2r7w/c1GhThv2Dyy0jo=",
+    "hash": "sha256-nAcovORY4cxVSaK7uicqhjWTXs+5CVLW5Cwj7T5m1CE=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-nElGk+CZFyq0PbPm4JU8avD6lER7x9Z1C54BK7qY12Q="
     },
@@ -209,10 +209,10 @@
       "mscorlib.wasm": "sha256-UzRTTeY8BezBltrUF59UgvVNxbmnZS3LeowarsPY8+Y=",
       "netstandard.wasm": "sha256-xHQSNwqHm8E9DM86qW7CTJoRXXsQuGmPeNipDwQFNr8=",
       "System.Private.CoreLib.wasm": "sha256-N9/Djwpe2mX4HdyhCGu9jrxG/DSYKoTPbtsIOv6VFDk=",
-      "InvestMoi.wasm": "sha256-1grysp55ClaLz0dFVQv7ESxuLpimSdl4ulO4syLScmc="
+      "InvestMoi.wasm": "sha256-VoRtxcL5QVy7/2mkDpRvu34uGzgl3GWPYRs1yenv9H8="
     },
     "pdb": {
-      "InvestMoi.pdb": "sha256-G7Nn6P0gCzXHS1luNU/sLN5lqgN1PVKU/B4BBLk3qgI="
+      "InvestMoi.pdb": "sha256-4g0q9OJ7Vlv0gIrpbN2rhmB2ADNGkoGCOy5RVijm6oE="
     }
   },
   "cacheBootResources": true,
