@@ -1,12 +1,12 @@
 self.assetsManifest = {
-  "version": "OyeqrLhn",
+  "version": "KtUxu630",
   "assets": [
     {
       "hash": "sha256-8Ul84+Y7fHQX6xmVU3fPoInra0QIhCINIksOfcSHGn0=",
       "url": "InvestMoi.styles.css"
     },
     {
-      "hash": "sha256-MNMsWX/roC8eIHNG2ZXfUjBh798VyMDQjIPEhq0Ayqo=",
+      "hash": "sha256-fc8+nXqxRol1uErjdpJTlFOs/wIIqgroGC64VnkW0Ps=",
       "url": "_framework/InvestMoi.wasm"
     },
     {
@@ -134,7 +134,7 @@ self.assetsManifest = {
       "url": "_framework/System.Text.RegularExpressions.wasm"
     },
     {
-      "hash": "sha256-DP5lsG9385g37lL1KVUN53krYr83xEOaf8kkpntkw8s=",
+      "hash": "sha256-cqHvdhkgUvL9TMvYb88bc/JOmQLQ2A+dK9y9zVOh43A=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -170,6 +170,10 @@ self.assetsManifest = {
       "url": "_framework/icudt_no_CJK.dat"
     },
     {
+      "hash": "sha256-aqyJ9WY99LugygKjUqON57Nkd0l+Fa2seNx4S5Ym+hk=",
+      "url": "_redirects"
+    },
+    {
       "hash": "sha256-JOZWd9XYwDyrwjSB0PVTcc602GisYED21qQUCSMlGtI=",
       "url": "css/app.css"
     },
@@ -194,7 +198,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-L15pQw19OHYOt/PLFhiZ4n9dpLTL7niZc4B7qW98zN8=",
+      "hash": "sha256-9144SsQjxdw6CBrdBIBWu9QjrgqGrfewS1ep1ydQxNY=",
       "url": "index.html"
     },
     {

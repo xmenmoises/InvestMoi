@@ -2,8 +2,8 @@
 <!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\browser-wasm\publish\</_PublishTargetUrl>
-    <History>True|2026-04-16T17:34:29.7523591Z||;</History>
+    <_PublishTargetUrl>C:\Meus arquivos\Projetos\InvestMoi\publish\wwwroot</_PublishTargetUrl>
+    <History>True|2026-04-16T18:16:00.8554189Z||;True|2026-04-16T14:34:29.7523591-03:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

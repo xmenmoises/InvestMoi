@@ -1038,6 +1038,6 @@ C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\refint\InvestMoi.dll
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.pdb
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\ref\InvestMoi.dll
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.sourcelink.json
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\mf70a9y5fs-1uab5yda51.gz
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\7vckoxwoju-eaed9u9daw.gz
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\g95gs3y5xu-80uceh57zp.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\mf70a9y5fs-1zxqdx1xu3.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\7vckoxwoju-887rchooy5.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\g95gs3y5xu-vgfk7a2a26.gz
