@@ -1,16 +1,16 @@
 self.assetsManifest = {
-  "version": "C4dycZ0L",
+  "version": "fA80tnwq",
   "assets": [
     {
       "hash": "sha256-8Ul84+Y7fHQX6xmVU3fPoInra0QIhCINIksOfcSHGn0=",
       "url": "InvestMoi.styles.css"
     },
     {
-      "hash": "sha256-qLJ+c2UPsBukviLkYvikg9H21K0RKEcr72UhcOYXZEc=",
+      "hash": "sha256-G7Nn6P0gCzXHS1luNU/sLN5lqgN1PVKU/B4BBLk3qgI=",
       "url": "_framework/InvestMoi.pdb"
     },
     {
-      "hash": "sha256-fc8+nXqxRol1uErjdpJTlFOs/wIIqgroGC64VnkW0Ps=",
+      "hash": "sha256-1grysp55ClaLz0dFVQv7ESxuLpimSdl4ulO4syLScmc=",
       "url": "_framework/InvestMoi.wasm"
     },
     {
@@ -770,7 +770,7 @@ self.assetsManifest = {
       "url": "_framework/WindowsBase.wasm"
     },
     {
-      "hash": "sha256-sQWt0jmGZSHWEWZy+I4WoFuDMvYd8p+SBzI3TKpQQOs=",
+      "hash": "sha256-+SdffSB+yWTmgnz252YaUA4Bv18kFEpizTiqmUz2YHQ=",
       "url": "_framework/blazor.boot.json"
     },
     {
