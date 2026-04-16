@@ -1,12 +1,12 @@
 self.assetsManifest = {
-  "version": "tV9vfkk2",
+  "version": "bA/CdXvB",
   "assets": [
     {
       "hash": "sha256-8Ul84+Y7fHQX6xmVU3fPoInra0QIhCINIksOfcSHGn0=",
       "url": "InvestMoi.styles.css"
     },
     {
-      "hash": "sha256-1grysp55ClaLz0dFVQv7ESxuLpimSdl4ulO4syLScmc=",
+      "hash": "sha256-xrzPHu+C96Q6jd8I6sG7QBwzzBS3d9vyY9BTLt0T4HY=",
       "url": "_framework/InvestMoi.wasm"
     },
     {
@@ -134,7 +134,7 @@ self.assetsManifest = {
       "url": "_framework/System.Text.RegularExpressions.wasm"
     },
     {
-      "hash": "sha256-zQbz6XCMo5aEcS/8KGqtON+DE67nGtNLCI027fbZ+hI=",
+      "hash": "sha256-kxpHVGnK0yOTcTy9BXMnNEcJHXJPdaJ4+CObqKQIEho=",
       "url": "_framework/blazor.boot.json"
     },
     {

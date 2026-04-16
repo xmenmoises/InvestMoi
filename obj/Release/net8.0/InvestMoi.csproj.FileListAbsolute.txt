@@ -203,8 +203,6 @@ C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\emcc-p
 C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\InvestMoi.wasm
 C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\InvestMoi.pdb
 C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\blazor.boot.json
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\service-worker.js
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\service-worker-assets.js
 C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\blazor.webassembly.js.gz
 C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.wasm.gz
 C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.wasm.gz
@@ -622,6 +620,7 @@ C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.AssemblyInfoInp
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.AssemblyInfo.cs
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.csproj.CoreCompileInputs.cache
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.MvcApplicationPartsAssemblyInfo.cache
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.sourcelink.json
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\webcil\Microsoft.AspNetCore.Authorization.wasm
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\webcil\Microsoft.AspNetCore.Components.wasm
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\webcil\Microsoft.AspNetCore.Components.Forms.wasm
@@ -1027,6 +1026,9 @@ C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\574c40hfe1-tjc
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\bhi6bkj2mz-tptq2av103.gz
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\kc4agbopms-lfu7j35m59.gz
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\khf9n0acv9-oyz0vx2fzb.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\mf70a9y5fs-6cx8qu5uxu.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\7vckoxwoju-khyw7hh3hw.gz
+C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\g95gs3y5xu-t0hu659lve.gz
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\staticwebassets.build.json
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\staticwebassets.build.json.cache
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\staticwebassets.development.json
@@ -1037,12 +1039,3 @@ C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.dll
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\refint\InvestMoi.dll
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.pdb
 C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\ref\InvestMoi.dll
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\InvestMoi.sourcelink.json
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\web.config
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\emcc-props.json
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\InvestMoi.staticwebassets.endpoints.json
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\wwwroot\sample-data\weather.json
-C:\Meus arquivos\Projetos\InvestMoi\bin\Release\net8.0\publish\wwwroot\_framework\blazor.boot.json
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\mf70a9y5fs-yqirkoj3em.gz
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\7vckoxwoju-ewpo9oxhfj.gz
-C:\Meus arquivos\Projetos\InvestMoi\obj\Release\net8.0\compressed\g95gs3y5xu-6t20ngdsou.gz
