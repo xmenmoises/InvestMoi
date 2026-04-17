@@ -1,7 +1,43 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>InvestMoi</PageTitle>
 
-<h1>Olá, Mundo!</h1>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
 
-Bem-vindo ao InvestMoi.
+    <MudPaper Elevation="3" Class="pa-6">
+
+        <MudText Typo="Typo.h4" GutterBottom="true">
+            InvestMoi
+        </MudText>
+
+        <MudText Typo="Typo.subtitle1" Class="mb-4">
+            Meu painel pessoal de investimentos
+        </MudText>
+
+        <MudDivider Class="mb-4" />
+
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="false" Class="mb-4">
+            Este aplicativo não fornece recomendações de investimento.
+        </MudAlert>
+
+        <MudText Typo="Typo.body1" Class="mb-2">
+            Este sistema foi desenvolvido exclusivamente para uso pessoal, com o objetivo de organizar,
+            visualizar e acompanhar algumas ações de interesse.
+        </MudText>
+
+        <MudText Typo="Typo.body1" Class="mb-2">
+            As informações exibidas refletem apenas minhas preferências, estratégias e indicadores que eu utilizo
+            no meu processo de análise.
+        </MudText>
+
+        <MudText Typo="Typo.body1" Class="mb-2">
+            Nada aqui deve ser interpretado como sugestão, recomendação ou aconselhamento financeiro.
+        </MudText>
+
+        <MudText Typo="Typo.body2" Class="mt-4" Color="Color.Secondary">
+            Cada investidor deve realizar suas próprias análises e tomar decisões com base no seu próprio perfil de risco.
+        </MudText>
+
+    </MudPaper>
+
+</MudContainer>
