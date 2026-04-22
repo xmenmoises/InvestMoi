@@ -1,11 +1,11 @@
-﻿@page "/ListaAcoes"
+﻿@page "/ListaAcoes10"
 @using System.Text.Json.Serialization
 
 @inject HttpClient Http
 
-<PageTitle>Todas as Ações</PageTitle>
+<PageTitle>Ações até R$ 10</PageTitle>
 
-<h1>Lista de todas as Ações da B3</h1>
+<h1>Lista de Ações da B3 até R$ 10</h1>
 
 @if (acoes == null)
 {
@@ -59,6 +59,7 @@ else
     private List<Stock>? acoes;
     private string? errorMessage;
     private string searchTerm = "";
+    private double precoMaximo = 10;
 
    protected override async Task OnInitializedAsync()
     {
@@ -86,7 +87,7 @@ else
 
             // 🔽 ordena da mais barata pra mais cara
             acoes = todasAcoes
-                .Where(a => a.Close != null)
+                .Where(a => a.Close != null && a.Close <= precoMaximo)
                 .OrderBy(a => a.Close)
                 .ToList();
         }
