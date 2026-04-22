@@ -60,40 +60,43 @@ else
     private string? errorMessage;
     private string searchTerm = "";
 
-    protected override async Task OnInitializedAsync()
+   protected override async Task OnInitializedAsync()
     {
         try
         {
-            var url = "https://brapi.dev/api/quote/list?limit=50&type=stock";
+            var todasAcoes = new List<Stock>();
+            int pagina = 1;
+            int totalPaginas = 1;
 
-            var response = await Http.GetFromJsonAsync<ApiResponse>(url);
+            do
+            {
+                var url = $"https://brapi.dev/api/quote/list?limit=50&type=stock&page={pagina}";
 
-            if (response?.Stocks != null && response.Stocks.Any())
-            {
-                acoes = response.Stocks
-                    .Where(s => s.Type == "stock")
-                    .ToList();
-            }
-            else
-            {
-                errorMessage = "Resposta vazia da API";
-                acoes = new List<Stock>();
-            }
+                var response = await Http.GetFromJsonAsync<ApiResponse>(url);
+
+                if (response?.Stocks != null)
+                {
+                    todasAcoes.AddRange(response.Stocks.Where(s => s.Type == "stock"));
+                    totalPaginas = response.TotalPages;
+                }
+
+                pagina++;
+
+            } while (pagina <= totalPaginas);
+
+            // 🔽 ordena da mais barata pra mais cara
+            acoes = todasAcoes
+                .Where(a => a.Close != null)
+                .OrderBy(a => a.Close)
+                .ToList();
         }
         catch (Exception ex)
         {
             errorMessage = $"Erro ao carregar: {ex.Message}";
             acoes = new List<Stock>();
-
             Console.WriteLine($"Erro detalhado: {ex}");
         }
     }
-
-    // =========================
-    // MODELS CORRETOS
-    // =========================
-
-    
 
     public class ApiResponse
     {
