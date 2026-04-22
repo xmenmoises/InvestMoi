@@ -1,11 +1,11 @@
-﻿@page "/ListaAcoes10"
+﻿@page "/ListaAcoes5"
 @using System.Text.Json.Serialization
 
 @inject HttpClient Http
 
-<PageTitle>Ações de R$ 5 a R$ 10</PageTitle>
+<PageTitle>Ações até R$ 5</PageTitle>
 
-<h1>Lista de Ações da B3 de R$ 5 a R$ 10</h1>
+<h1>Lista de Ações da B3 até R$ 5</h1>
 
 @if (acoes == null)
 {
@@ -59,8 +59,7 @@ else
     private List<Stock>? acoes;
     private string? errorMessage;
     private string searchTerm = "";
-    private double precoMinimo = 5;
-    private double precoMaximo = 10;
+    private double precoMaximo = 5;
 
     protected override async Task OnInitializedAsync()
     {
@@ -90,9 +89,6 @@ else
                         parar = true;
                         break;
                     }
-
-                    if (acao.Close < precoMinimo)
-                        continue;
 
                     filtradas.Add(acao);
                 }
