@@ -1,0 +1,142 @@
+﻿@page "/ListaAcoes"
+@using System.Text.Json.Serialization
+
+@inject HttpClient Http
+
+<PageTitle>Lista de Ações da B3</PageTitle>
+
+<h1>Lista de Ações da B3</h1>
+
+@if (acoes == null)
+{
+    <p><em>Carregando ações...</em></p>
+}
+else if (acoes.Count == 0)
+{
+    <div class="alert alert-warning">
+        @errorMessage
+    </div>
+}
+else
+{
+    <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Pesquisar ação..." @bind="searchTerm" @bind:event="oninput" />
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome</th>
+                <th>Preço (R$)</th>
+                <th>Variação (%)</th>
+                <th>Setor</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var acao in acoes.Where(a =>
+                    string.IsNullOrEmpty(searchTerm) ||
+                    a.StockCode != null && a.StockCode.Contains(searchTerm.ToUpper()) ||
+                    (a.Name?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true)))
+            {
+                <tr>
+                    <td><strong>@acao.StockCode</strong></td>
+                    <td>@acao.Name</td>
+                    <td class="text-end">@(acao.Close?.ToString("F2") ?? "-")</td>
+                    <td class="text-end @(acao.Change >= 0 ? "text-success" : "text-danger")">
+                        @(acao.Change >= 0 ? "+" : "")@(acao.Change?.ToString("F2") ?? "0")%
+                    </td>
+                    <td>@(acao.Sector ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p class="text-muted">Total: @acoes.Count ações</p>
+}
+
+@code {
+    private List<Stock>? acoes;
+    private string? errorMessage;
+    private string searchTerm = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var url = "https://brapi.dev/api/quote/list?limit=50&type=stock";
+
+            var response = await Http.GetFromJsonAsync<ApiResponse>(url);
+
+            if (response?.Stocks != null && response.Stocks.Any())
+            {
+                acoes = response.Stocks
+                    .Where(s => s.Type == "stock")
+                    .ToList();
+            }
+            else
+            {
+                errorMessage = "Resposta vazia da API";
+                acoes = new List<Stock>();
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erro ao carregar: {ex.Message}";
+            acoes = new List<Stock>();
+
+            Console.WriteLine($"Erro detalhado: {ex}");
+        }
+    }
+
+    // =========================
+    // MODELS CORRETOS
+    // =========================
+
+    
+
+    public class ApiResponse
+    {
+        [JsonPropertyName("stocks")]
+        public List<Stock>? Stocks { get; set; }
+
+        [JsonPropertyName("currentPage")]
+        public int CurrentPage { get; set; }
+
+        [JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+
+        [JsonPropertyName("totalCount")]
+        public int TotalCount { get; set; }
+    }
+
+    public class Stock
+    {
+        [JsonPropertyName("stock")]
+        public string? StockCode { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("close")]
+        public double? Close { get; set; }
+
+        [JsonPropertyName("change")]
+        public double? Change { get; set; }
+
+        [JsonPropertyName("volume")]
+        public long? Volume { get; set; }
+
+        [JsonPropertyName("market_cap")]
+        public double? MarketCap { get; set; }
+
+        [JsonPropertyName("sector")]
+        public string? Sector { get; set; }
+
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
+
+        [JsonPropertyName("logo")]
+        public string? Logo { get; set; }
+    }
+}
