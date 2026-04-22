@@ -61,35 +61,45 @@ else
     private string searchTerm = "";
     private double precoMaximo = 10;
 
-   protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            var todasAcoes = new List<Stock>();
+            var filtradas = new List<Stock>();
             int pagina = 1;
-            int totalPaginas = 1;
+            bool parar = false;
 
-            do
+            while (!parar)
             {
-                var url = $"https://brapi.dev/api/quote/list?limit=50&type=stock&page={pagina}";
+                var url = $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
 
                 var response = await Http.GetFromJsonAsync<ApiResponse>(url);
 
-                if (response?.Stocks != null)
+                if (response?.Stocks == null || response.Stocks.Count == 0)
+                    break;
+
+                foreach (var acao in response.Stocks)
                 {
-                    todasAcoes.AddRange(response.Stocks.Where(s => s.Type == "stock"));
-                    totalPaginas = response.TotalPages;
+                    if (acao.Close == null)
+                        continue;
+
+                    // 🔴 condição de parada
+                    if (acao.Close > precoMaximo)
+                    {
+                        parar = true;
+                        break;
+                    }
+
+                    filtradas.Add(acao);
                 }
 
                 pagina++;
 
-            } while (pagina <= totalPaginas);
+                if (pagina > response.TotalPages)
+                    break;
+            }
 
-            // 🔽 ordena da mais barata pra mais cara
-            acoes = todasAcoes
-                .Where(a => a.Close != null && a.Close <= precoMaximo)
-                .OrderBy(a => a.Close)
-                .ToList();
+            acoes = filtradas;
         }
         catch (Exception ex)
         {
