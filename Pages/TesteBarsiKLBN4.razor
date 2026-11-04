@@ -1,0 +1,393 @@
+﻿@page "/TesteBarsiKLBN4"
+
+@using System.Text.Json.Serialization
+@using TabBlazor
+
+@inject HttpClient Http
+
+<PageTitle>Análise Barsi - KLBN4</PageTitle>
+
+<div class="container-xl py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Análise Barsi</h1>
+            <div class="text-muted">
+                Klabin PN · KLBN4
+            </div>
+        </div>
+
+        <button class="btn btn-primary"
+                @onclick="CarregarCotacao"
+                disabled="@carregando">
+
+            @(carregando ? "Atualizando..." : "Atualizar cotação")
+        </button>
+    </div>
+
+    @if (carregando)
+    {
+        <div class="alert alert-info">
+            Consultando cotação da KLBN4...
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(erro))
+    {
+        <div class="alert alert-danger">
+            @erro
+        </div>
+    }
+
+    <div class="row row-cards mb-4">
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Cotação atual</div>
+
+                    <div class="h1 mb-1">
+                        @FormatarMoeda(precoMercado)
+                    </div>
+
+                    <div class="text-muted">
+                        @variacao.ToString("+0.00;-0.00;0.00")%
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Média dos dividendos</div>
+
+                    <div class="h1 mb-1">
+                        @FormatarMoeda(mediaDividendos)
+                    </div>
+
+                    <div class="text-muted">
+                        Últimos 6 anos
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Preço-teto Barsi</div>
+
+                    <div class="h1 mb-1 text-success">
+                        @FormatarMoeda(precoTeto)
+                    </div>
+
+                    <div class="text-muted">
+                        DY desejado: @dyDesejado.ToString("N2")%
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">PT / PM</div>
+
+                    <div class="h1 mb-1">
+                        @relacao.ToString("N2")
+                    </div>
+
+                    <span class="@ClasseVies">
+                        @vies
+                    </span>
+                </CardBody>
+            </Card>
+        </div>
+
+    </div>
+
+    <div class="row row-cards">
+
+        <div class="col-lg-7">
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Histórico de dividendos</CardTitle>
+                </CardHeader>
+
+                <CardBody>
+
+                    <div class="d-flex align-items-end gap-3"
+                         style="height:220px;">
+
+                        @foreach (var item in dividendos)
+                        {
+                            <div class="flex-fill text-center">
+
+                                <div class="text-muted small mb-2">
+                                    @item.Valor.ToString("F2")
+                                </div>
+
+                                <div class="d-flex align-items-end justify-content-center"
+                                     style="height:150px;">
+
+                                    <div style="
+                                        width:65%;
+                                        height:@AlturaBarra(item.Valor);
+                                        background:var(--tblr-primary);
+                                        border-radius:5px 5px 0 0;">
+                                    </div>
+
+                                </div>
+
+                                <div class="small text-muted mt-2">
+                                    @item.Ano
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </CardBody>
+            </Card>
+
+        </div>
+
+        <div class="col-lg-5">
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Resultado da análise</CardTitle>
+                </CardHeader>
+
+                <CardBody>
+
+                    <div class="mb-3">
+                        <div class="text-muted">Preço-teto</div>
+                        <h2>@FormatarMoeda(precoTeto)</h2>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="text-muted">Preço de mercado</div>
+                        <h2>@FormatarMoeda(precoMercado)</h2>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="text-muted">Diferença até o preço-teto</div>
+
+                        <h3 class="@(precoTeto >= precoMercado ? "text-success" : "text-danger")">
+                            @diferenca.ToString("+0.00;-0.00;0.00")%
+                        </h3>
+                    </div>
+
+                    <hr />
+
+                    <div class="text-muted mb-2">
+                        Classificação Barsi
+                    </div>
+
+                    <div class="h2 @ClasseVies">
+                        @vies
+                    </div>
+
+                </CardBody>
+            </Card>
+
+        </div>
+
+    </div>
+
+    <div class="text-muted small mt-3">
+        Cotação fornecida pela brapi.dev.
+        Fundamentos fixos conforme planilha.
+        @if (ultimaAtualizacao != null)
+        {
+            <span> Última consulta: @ultimaAtualizacao.Value.ToString("dd/MM/yyyy HH:mm:ss").</span>
+        }
+    </div>
+
+</div>
+
+@code {
+
+    // ==============================
+    // DADOS FIXOS DA PLANILHA
+    // ==============================
+
+    private readonly List<Dividendo> dividendos = new()
+    {
+        new(2020, 0.17),
+        new(2021, 0.00),
+        new(2022, 0.07),
+        new(2023, 0.30),
+        new(2024, 0.27),
+        new(2025, 0.27)
+    };
+
+    private double dyDesejado = 5.00;
+
+    // ==============================
+    // CÁLCULOS BARSI
+    // ==============================
+
+    private double mediaDividendos =>
+        dividendos.Average(x => x.Valor);
+
+    private double precoTeto =>
+        mediaDividendos / (dyDesejado / 100);
+
+    // ==============================
+    // COTAÇÃO
+    // ==============================
+
+    private double precoMercado;
+    private double variacao;
+
+    private bool carregando;
+    private string? erro;
+    private DateTime? ultimaAtualizacao;
+
+    // ==============================
+    // CLASSIFICAÇÃO
+    // ==============================
+
+    private double relacao =>
+        precoMercado > 0
+            ? precoTeto / precoMercado
+            : 0;
+
+    private double diferenca =>
+        precoMercado > 0
+            ? ((precoTeto / precoMercado) - 1) * 100
+            : 0;
+
+    private string vies =>
+        relacao >= 2 ? "COMPRAR FORTE" :
+        relacao >= 1.49 ? "COMPRAR" :
+        relacao > 1 ? "COMPRAR FRACO" :
+        "MANTER";
+
+    private string ClasseVies =>
+        relacao > 1
+            ? "text-success"
+            : "text-danger";
+
+    // ==============================
+    // GRÁFICO
+    // ==============================
+
+    private string AlturaBarra(double valor)
+    {
+        var maximo = dividendos.Max(x => x.Valor);
+
+        if (maximo <= 0)
+            return "0%";
+
+        return $"{valor / maximo * 100}%";
+    }
+
+    // ==============================
+    // FORMATAÇÃO
+    // ==============================
+
+    private string FormatarMoeda(double valor)
+    {
+        return valor.ToString("C2",
+            System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+    }
+
+    // ==============================
+    // CONSULTA BRAPI
+    // ==============================
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarCotacao();
+    }
+
+    private async Task CarregarCotacao()
+    {
+        try
+        {
+            carregando = true;
+            erro = null;
+
+            double? precoEncontrado = null;
+            double? variacaoEncontrada = null;
+
+            int pagina = 1;
+
+            while (true)
+            {
+                var url =
+                    $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
+
+                var response =
+                    await Http.GetFromJsonAsync<ApiResponse>(url);
+
+                if (response?.Stocks == null ||
+                    response.Stocks.Count == 0)
+                    break;
+
+                var acao = response.Stocks.FirstOrDefault(
+                    x => x.StockCode == "KLBN4");
+
+                if (acao != null)
+                {
+                    precoEncontrado = acao.Close;
+                    variacaoEncontrada = acao.Change;
+                    break;
+                }
+
+                if (pagina >= response.TotalPages)
+                    break;
+
+                pagina++;
+            }
+
+            if (precoEncontrado == null)
+                throw new Exception("KLBN4 não encontrada na brapi.dev.");
+
+            precoMercado = precoEncontrado.Value;
+            variacao = variacaoEncontrada ?? 0;
+
+            ultimaAtualizacao = DateTime.Now;
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message;
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    // ==============================
+    // MODELOS
+    // ==============================
+
+    public record Dividendo(int Ano, double Valor);
+
+    public class ApiResponse
+    {
+        [JsonPropertyName("stocks")]
+        public List<Stock>? Stocks { get; set; }
+
+        [JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+    }
+
+    public class Stock
+    {
+        [JsonPropertyName("stock")]
+        public string? StockCode { get; set; }
+
+        [JsonPropertyName("close")]
+        public double? Close { get; set; }
+
+        [JsonPropertyName("change")]
+        public double? Change { get; set; }
+    }
+}

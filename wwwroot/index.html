@@ -4,13 +4,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>InvestMoi</title>
+
     <base href="/" />
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+
+    <!-- Tabler -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/@tabler/core@1.7.0/dist/css/tabler.min.css" />
+
+    <!-- TabBlazor -->
+    <link rel="stylesheet"
+          href="_content/TabBlazor/css/tabblazor.min.css" />
+
+    <!-- Aplicação -->
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="InvestMoi.styles.css" />
+
     <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="InvestMoi.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
+
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
 </head>
@@ -29,8 +45,14 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <script src="_content/TabBlazor/js/tabblazor.js"></script>
+
+    <script>
+        navigator.serviceWorker.register('service-worker.js');
+    </script>
 </body>
 
 </html>

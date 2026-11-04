@@ -1,0 +1,31 @@
+﻿@page "/TabBlazorTeste"
+
+<PageTitle>Teste TabBlazor</PageTitle>
+
+<div class="container-xl mt-4">
+
+    <Card>
+        <CardHeader>
+            <CardTitle>InvestMoi + TabBlazor</CardTitle>
+        </CardHeader>
+
+        <CardBody>
+            <h2>Integração funcionando!</h2>
+
+            <p>Primeiro teste do TabBlazor.</p>
+
+            <Button BackgroundColor="TablerColor.Primary"
+                    OnClick="Testar">
+                Testar botão
+            </Button>
+        </CardBody>
+    </Card>
+
+</div>
+
+@code {
+    private void Testar()
+    {
+        Console.WriteLine("TabBlazor funcionando!");
+    }
+}
