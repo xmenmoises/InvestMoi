@@ -112,6 +112,7 @@
                             <th class="text-end">PT</th>
                             <th class="text-end">PT / PM</th>
                             <th class="text-center">Viés</th>
+                            <th class="text-center">BESST</th>
                         </tr>
                     </thead>
 
@@ -180,6 +181,18 @@
                                         <span class="badge bg-secondary">
                                             AGUARDANDO
                                         </span>
+                                    }
+                                </td>
+
+                                <!-- BESST -->
+                                <td class="text-center">
+                                    @if (acao.Besst)
+                                    {
+                                        <span class="badge bg-success text-dark">SIM</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger text-dark">NÃO</span>
                                     }
                                 </td>
 
@@ -296,7 +309,8 @@
             Dividendos = new double?[] { 0.17, 0.00, 0.07, 0.30, 0.27, 0.27 },
             Media = 0.18,
             DY = 5.00,
-            PT = 3.65
+            PT = 3.65,
+            Besst = false
         },
 
         new()
@@ -306,7 +320,8 @@
             Dividendos = new double?[] { 0.06, 0.09, 0.11, 0.14, 0.33, 0.59 },
             Media = 0.22,
             DY = 5.00,
-            PT = 4.41
+            PT = 4.41,
+            Besst = false
         },
 
         new()
@@ -316,7 +331,8 @@
             Dividendos = new double?[] { null, null, 0.47, 0.92, 0.78, 0.74 },
             Media = 0.48,
             DY = 5.00,
-            PT = 9.68
+            PT = 9.68,
+            Besst = false
         },
 
         new()
@@ -326,7 +342,8 @@
             Dividendos = new double?[] { 0.46, 0.09, 0.98, 0.52, 0.71, 0.58 },
             Media = 0.56,
             DY = 5.00,
-            PT = 11.16
+            PT = 11.16,
+            Besst = true
         },
 
         new()
@@ -336,7 +353,8 @@
             Dividendos = new double?[] { 0.18, 0.32, 0.37, 0.38, 0.37, 0.55 },
             Media = 0.36,
             DY = 5.00,
-            PT = 7.18
+            PT = 7.18,
+            Besst = true
         },
 
         new()
@@ -346,7 +364,8 @@
             Dividendos = new double?[] { 0.88, 0.20, 0.22, 0.31, 0.31, 0.32 },
             Media = 0.37,
             DY = 5.00,
-            PT = 7.44
+            PT = 7.44,
+            Besst = true
         },
 
         new()
@@ -356,7 +375,8 @@
             Dividendos = new double?[] { 0.30, 0.21, 0.34, 0.59, 0.63, 0.66 },
             Media = 0.46,
             DY = 5.00,
-            PT = 9.14
+            PT = 9.14,
+            Besst = true
         },
 
         new()
@@ -366,7 +386,8 @@
             Dividendos = new double?[] { null, null, 0.10, 3.00, 0.40, 0.06 },
             Media = 0.59,
             DY = 5.00,
-            PT = 11.86
+            PT = 11.86,
+            Besst = true
         },
 
         new()
@@ -376,7 +397,8 @@
             Dividendos = new double?[] { 2.82, 1.19, 0.81, 0.30, 0.39, 1.22 },
             Media = 1.12,
             DY = 5.00,
-            PT = 22.42
+            PT = 22.42,
+            Besst = true
         }
     };
 
@@ -409,6 +431,8 @@
             Relacao >= 1.49 ? "COMPRAR" :
             Relacao > 1.00 ? "COMPRAR FRACO" :
             "MANTER";
+
+        public bool Besst { get; set; }
     }
 
     // ==========================================
