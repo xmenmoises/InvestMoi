@@ -1,16 +1,53 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
+
+<div class="invest-layout">
+
+    @if (menuAberto)
+    {
+        <div class="invest-overlay" @onclick="FecharMenu"></div>
+    }
+
+    <div class="invest-layout-sidebar @(menuAberto ? "sidebar-open" : "")">
         <NavMenu />
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+    <main class="invest-layout-main">
+
+        <div class="invest-layout-header">
+
+            <button class="invest-mobile-button"
+                    @onclick="ToggleMenu"
+                    aria-label="Abrir ou fechar menu">
+                <span class="hamburger-icon"></span>
+            </button>
+
+            <span class="invest-top-brand">InvestMoi</span>
+
+            <a href="https://learn.microsoft.com/aspnet/core/"
+               target="_blank">
+                About
+            </a>
+
         </div>
 
-        <article class="content px-4">
+        <article class="invest-layout-content">
             @Body
         </article>
+
     </main>
+
 </div>
+
+@code {
+    private bool menuAberto = false;
+
+    private void ToggleMenu()
+    {
+        menuAberto = !menuAberto;
+    }
+
+    private void FecharMenu()
+    {
+        menuAberto = false;
+    }
+}
