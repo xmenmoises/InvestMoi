@@ -1,43 +1,122 @@
 ﻿@page "/"
 
+@using TabBlazor
+
 <PageTitle>InvestMoi</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
+<div class="container-xl py-5">
+        
+    <div class="row justify-content-center">
 
-    <MudPaper Elevation="3" Class="pa-6">
+        <div class="col-12 col-lg-9 col-xl-8">
 
-        <MudText Typo="Typo.h4" GutterBottom="true">
-            InvestMoi
-        </MudText>
+            <!-- CABEÇALHO -->
 
-        <MudText Typo="Typo.subtitle1" Class="mb-4">
-            Meu painel pessoal de investimentos
-        </MudText>
+            <div class="text-center mb-4">
 
-        <MudDivider Class="mb-4" />
+                <div class="avatar avatar-xl bg-primary-lt text-primary mx-auto mb-3">
+                    <span class="h1 mb-0">↗</span>
+                </div>
 
-        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="false" Class="mb-4">
-            Este aplicativo não fornece recomendações de investimento.
-        </MudAlert>
+                <h1 class="mb-1">InvestMoi</h1>
 
-        <MudText Typo="Typo.body1" Class="mb-2">
-            Este sistema foi desenvolvido exclusivamente para uso pessoal, com o objetivo de organizar,
-            visualizar e acompanhar algumas ações de interesse.
-        </MudText>
+                <div class="text-muted">
+                    Meu painel pessoal de investimentos
+                </div>
 
-        <MudText Typo="Typo.body1" Class="mb-2">
-            As informações exibidas refletem apenas minhas preferências, estratégias e indicadores que eu utilizo
-            no meu processo de análise.
-        </MudText>
+            </div>
 
-        <MudText Typo="Typo.body1" Class="mb-2">
-            Nada aqui deve ser interpretado como sugestão, recomendação ou aconselhamento financeiro.
-        </MudText>
+            <!-- CARD PRINCIPAL -->
 
-        <MudText Typo="Typo.body2" Class="mt-4" Color="Color.Secondary">
-            Cada investidor deve realizar suas próprias análises e tomar decisões com base no seu próprio perfil de risco.
-        </MudText>
+            <Card>
 
-    </MudPaper>
+                <CardHeader>
+                    <CardTitle>Sobre o aplicativo</CardTitle>
+                </CardHeader>
 
-</MudContainer>
+                <CardBody>
+
+                    <!-- AVISO -->
+
+                    <div class="alert alert-warning mb-4">
+
+                        <div class="d-flex">
+
+                            <div class="me-3">
+                                <span class="h2">⚠</span>
+                            </div>
+
+                            <div>
+                                <h3 class="alert-title">
+                                    Aviso importante
+                                </h3>
+
+                                <div class="text-muted">
+                                    Este aplicativo não fornece recomendações de investimento.
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- DESCRIÇÃO -->
+
+                    <div class="mb-4">
+
+                        <p class="text-muted lh-lg">
+                            Este sistema foi desenvolvido exclusivamente para uso pessoal,
+                            com o objetivo de organizar, visualizar e acompanhar algumas
+                            ações de interesse.
+                        </p>
+
+                        <p class="text-muted lh-lg">
+                            As informações exibidas refletem apenas minhas preferências,
+                            estratégias e indicadores que eu utilizo no meu processo de análise.
+                        </p>
+
+                        <p class="text-muted lh-lg mb-0">
+                            Nada aqui deve ser interpretado como sugestão, recomendação
+                            ou aconselhamento financeiro.
+                        </p>
+
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <!-- OBSERVAÇÃO FINAL -->
+
+                    <div class="d-flex align-items-start gap-3">
+
+                        <span class="avatar bg-primary-lt text-primary">
+                            ℹ
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold mb-1">
+                                Decisões conscientes
+                            </div>
+
+                            <div class="text-muted small lh-lg">
+                                Cada investidor deve realizar suas próprias análises
+                                e tomar decisões com base no seu próprio perfil de risco.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </CardBody>
+
+            </Card>
+
+            <!-- RODAPÉ -->
+
+            <div class="text-center text-muted small mt-4">
+                InvestMoi · Painel pessoal de investimentos
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

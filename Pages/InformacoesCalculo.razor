@@ -1,0 +1,512 @@
+﻿@page "/InformacoesCalculo"
+
+@using TabBlazor
+
+<PageTitle>Informações de Cálculo</PageTitle>
+
+<div class="container-xl py-4">
+
+    
+    <!-- CABEÇALHO -->
+
+    <div class="mb-4">
+        <h1 class="mb-1">Informações de Cálculo</h1>
+        <div class="text-muted">
+            Entenda as fórmulas, indicadores e critérios utilizados nas análises do InvestMoi.
+        </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+
+    <Card class="mb-4">
+        <CardBody>
+
+            <div class="d-flex align-items-center gap-3">
+
+                <span class="avatar avatar-lg bg-primary-lt text-primary">
+                    <span class="h2 mb-0">∑</span>
+                </span>
+
+                <div>
+                    <div class="h3 mb-1">
+                        Como funcionam os cálculos?
+                    </div>
+
+                    <div class="text-muted">
+                        Cada método utiliza critérios diferentes para estimar
+                        o valor de uma ação e identificar possíveis oportunidades.
+                    </div>
+                </div>
+
+            </div>
+
+        </CardBody>
+    </Card>
+
+    <!-- BARSI -->
+
+    <h2 class="mb-3">Método Barsi</h2>
+
+    <Card class="mb-4">
+
+        <CardHeader>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <CardTitle>Preço-teto baseado em dividendos</CardTitle>
+
+                <span class="badge bg-success-lt text-success">
+                    Barsi
+                </span>
+            </div>
+        </CardHeader>
+
+        <CardBody>
+
+            <p class="text-muted">
+                O método utiliza a média histórica dos dividendos distribuídos
+                pela empresa para estimar um preço máximo de compra,
+                considerando um Dividend Yield desejado.
+            </p>
+
+            <div class="subheader mb-2">
+                1. Média dos dividendos
+            </div>
+
+            <div class="alert alert-primary text-center">
+
+                <div class="h2 mb-2">
+                    Média = Soma dos dividendos / Número de anos
+                </div>
+
+                <div class="text-muted small">
+                    Considera os dividendos distribuídos em cada ano analisado.
+                </div>
+
+            </div>
+
+            <div class="subheader mb-2 mt-4">
+                2. Cálculo do preço-teto
+            </div>
+
+            <div class="alert alert-success text-center">
+
+                <div class="h2 mb-2">
+                    PT = Média dos dividendos / (DY / 100)
+                </div>
+
+                <div class="text-muted small">
+                    PT representa o preço-teto e DY o Dividend Yield desejado.
+                </div>
+
+            </div>
+
+            <h4 class="mt-4">Exemplo utilizado no InvestMoi</h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-vcenter table-striped">
+
+                    <thead>
+                        <tr>
+                            <th>Ano</th>
+                            <th class="text-end">Dividendos por ação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>2020</td>
+                            <td class="text-end">R$ 0,17</td>
+                        </tr>
+                        <tr>
+                            <td>2021</td>
+                            <td class="text-end">R$ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td class="text-end">R$ 0,07</td>
+                        </tr>
+                        <tr>
+                            <td>2023</td>
+                            <td class="text-end">R$ 0,30</td>
+                        </tr>
+                        <tr>
+                            <td>2024</td>
+                            <td class="text-end">R$ 0,27</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td class="text-end">R$ 0,27</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="row g-3 mt-2">
+
+                <div class="col-md-4">
+                    <div class="bg-primary-lt rounded p-3">
+                        <div class="subheader">Média anual</div>
+                        <div class="h2 mb-0">R$ 0,18</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="bg-primary-lt rounded p-3">
+                        <div class="subheader">DY desejado</div>
+                        <div class="h2 mb-0">5%</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="bg-success-lt rounded p-3">
+                        <div class="subheader">Preço-teto</div>
+                        <div class="h2 mb-0">R$ 3,65</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="alert alert-info mt-4 mb-0">
+
+                <strong>Observação:</strong>
+
+                <div class="text-muted mt-1">
+                    No InvestMoi, o histórico utilizado considera os últimos
+                    seis anos disponíveis na planilha. O DY desejado é definido
+                    conforme o critério utilizado na análise.
+                </div>
+
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- BAZIN -->
+
+    <h2 class="mb-3">Método Bazin</h2>
+
+    <Card class="mb-4">
+
+        <CardHeader>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <CardTitle>Preço-teto pelo Dividend Yield</CardTitle>
+
+                <span class="badge bg-primary-lt text-primary">
+                    Bazin
+                </span>
+            </div>
+        </CardHeader>
+
+        <CardBody>
+
+            <p class="text-muted">
+                O método Bazin utiliza os dividendos distribuídos pela empresa
+                para determinar quanto seria razoável pagar por uma ação,
+                considerando um rendimento mínimo desejado.
+            </p>
+
+            <div class="subheader mb-2">
+                Fórmula do preço-teto
+            </div>
+
+            <div class="alert alert-primary text-center">
+
+                <div class="h2 mb-2">
+                    PT = Dividendos anuais por ação / DY desejado
+                </div>
+
+                <div class="text-muted small">
+                    O DY deve ser utilizado em formato decimal.
+                </div>
+
+            </div>
+
+            <h4 class="mt-4">Critérios de análise</h4>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <div class="bg-success-lt rounded p-3">
+                        <div class="subheader">Dividend Yield de referência</div>
+                        <div class="h2 mb-0 text-success">6%</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="bg-primary-lt rounded p-3">
+                        <div class="subheader">Dívida líquida / PL</div>
+                        <div class="h2 mb-0 text-primary">&lt; 1</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="alert alert-info mt-4 mb-0">
+                <strong>Atenção:</strong>
+                <div class="text-muted mt-1">
+                    O percentual de 6% é uma referência tradicional do método
+                    Bazin. O critério de endividamento também deve ser avaliado
+                    considerando as características do setor da empresa.
+                </div>
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- GRAHAM -->
+
+    <h2 class="mb-3">Método Graham</h2>
+
+    <Card class="mb-4">
+
+        <CardHeader>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <CardTitle>Valor justo e margem de segurança</CardTitle>
+
+                <span class="badge bg-warning-lt text-warning">
+                    Graham
+                </span>
+            </div>
+        </CardHeader>
+
+        <CardBody>
+
+            <p class="text-muted">
+                O método Graham procura identificar ações negociadas abaixo
+                de seu valor estimado, utilizando informações de lucro
+                e patrimônio da empresa.
+            </p>
+
+            <div class="subheader mb-2">
+                1. Cálculo do valor justo
+            </div>
+
+            <div class="alert alert-primary text-center">
+
+                <div class="h2 mb-2">
+                    VJ = √(22,5 × LPA × VPA)
+                </div>
+
+                <div class="text-muted small">
+                    VJ representa o valor justo estimado da ação.
+                </div>
+
+            </div>
+
+            <h4 class="mt-3">Entendendo os indicadores</h4>
+
+            <div class="list-group list-group-flush">
+
+                <div class="list-group-item px-0">
+                    <strong>LPA — Lucro por Ação</strong>
+                    <div class="text-muted small">
+                        Representa o lucro líquido da empresa dividido
+                        pela quantidade de ações.
+                    </div>
+                </div>
+
+                <div class="list-group-item px-0">
+                    <strong>VPA — Valor Patrimonial por Ação</strong>
+                    <div class="text-muted small">
+                        Representa o patrimônio líquido da empresa
+                        dividido pela quantidade de ações.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="subheader mb-2 mt-4">
+                2. Margem de segurança
+            </div>
+
+            <div class="alert alert-success text-center">
+
+                <div class="h2 mb-2">
+                    PT = VJ × (1 - MS)
+                </div>
+
+                <div class="text-muted small">
+                    MS representa a margem de segurança.
+                </div>
+
+            </div>
+
+            <h4 class="mt-3">Exemplo de aplicação</h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-vcenter">
+
+                    <thead>
+                        <tr>
+                            <th>Informação</th>
+                            <th class="text-end">Exemplo</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Valor justo estimado</td>
+                            <td class="text-end">R$ 20,00</td>
+                        </tr>
+                        <tr>
+                            <td>Margem de segurança</td>
+                            <td class="text-end">20%</td>
+                        </tr>
+                        <tr class="bg-success-lt">
+                            <td class="fw-bold">Preço-teto</td>
+                            <td class="text-end fw-bold text-success">
+                                R$ 16,00
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="alert alert-info mt-3 mb-0">
+                <strong>Importante:</strong>
+                <div class="text-muted mt-1">
+                    O fator 22,5 pertence à fórmula clássica de Graham.
+                    O percentual de margem de segurança deve ser definido
+                    conforme os critérios da análise. O exemplo acima
+                    é apenas ilustrativo.
+                </div>
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- CLASSIFICAÇÃO BARSI -->
+
+    <h2 class="mb-3">Classificação Barsi</h2>
+
+    <Card class="mb-4">
+
+        <CardHeader>
+            <CardTitle>Interpretação da relação PT / PM</CardTitle>
+        </CardHeader>
+
+        <CardBody>
+
+            <p class="text-muted">
+                A relação entre o preço-teto e o preço de mercado permite
+                classificar a ação conforme os critérios utilizados
+                no InvestMoi.
+            </p>
+
+            <div class="alert alert-primary text-center">
+
+                <div class="h2 mb-1">
+                    PT / PM
+                </div>
+
+                <div class="text-muted small">
+                    Preço-teto dividido pelo preço de mercado.
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-vcenter table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Relação</th>
+                            <th>Classificação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td class="fw-bold">≥ 2,00</td>
+                            <td>
+                                <span class="badge bg-success text-white">
+                                    COMPRAR FORTE
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fw-bold">≥ 1,49 e &lt; 2,00</td>
+                            <td>
+                                <span class="badge bg-success-lt text-success">
+                                    COMPRAR
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fw-bold">&gt; 1,00 e &lt; 1,49</td>
+                            <td>
+                                <span class="badge bg-warning-lt text-warning">
+                                    COMPRAR FRACO
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fw-bold">≤ 1,00</td>
+                            <td>
+                                <span class="badge bg-danger-lt text-danger">
+                                    MANTER
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="text-muted small mt-2">
+                Classificação conforme os critérios implementados
+                atualmente no InvestMoi.
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- AVISO FINAL -->
+
+    <div class="alert alert-warning">
+
+        <div class="d-flex">
+
+            <div class="me-3">
+                <span class="h2">⚠</span>
+            </div>
+
+            <div>
+                <h3 class="alert-title">
+                    Importante
+                </h3>
+
+                <div class="text-muted">
+                    Os cálculos apresentados são ferramentas de análise
+                    e não garantem que uma ação esteja barata ou que
+                    apresentará valorização futura. Os indicadores devem
+                    ser avaliados em conjunto com os fundamentos da empresa.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-center text-muted small mt-4">
+        InvestMoi · Documentação dos métodos de avaliação
+    </div>
+    
+
+</div>

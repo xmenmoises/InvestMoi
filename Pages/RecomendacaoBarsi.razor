@@ -1,0 +1,546 @@
+﻿@page "/RecomendacaoBarsi"
+
+@using System.Text.Json.Serialization
+@using System.Net.Http.Json
+@using System.Globalization
+@using TabBlazor
+
+@inject HttpClient Http
+
+<PageTitle>Recomendações Barsi</PageTitle>
+
+<div class="container-xl py-4">
+
+    <!-- CABEÇALHO -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Recomendações Barsi</h1>
+            <div class="text-muted">
+                Análise de ações baseada em dividendos e preço-teto.
+            </div>
+        </div>
+
+        <button class="btn btn-primary"
+                @onclick="AtualizarCotacoes"
+                disabled="@carregando">
+
+            @(carregando ? "Atualizando..." : "Atualizar cotações")
+        </button>
+    </div>
+
+    <!-- STATUS -->
+    @if (carregando)
+    {
+        <div class="alert alert-info">
+            Consultando cotações na brapi.dev...
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(erro))
+    {
+        <div class="alert alert-danger">
+            @erro
+        </div>
+    }
+
+    <!-- RESUMO -->
+    <div class="row row-cards mb-4">
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Ações analisadas</div>
+                    <div class="h1 mb-0">@Acoes.Count</div>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Comprar forte</div>
+                    <div class="h1 text-success mb-0">
+                        @Acoes.Count(x => x.Vies == "COMPRAR FORTE")
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Comprar</div>
+                    <div class="h1 text-warning mb-0">
+                        @Acoes.Count(x => x.Vies == "COMPRAR")
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <Card>
+                <CardBody>
+                    <div class="subheader">Comprar fraco</div>
+                    <div class="h1 text-orange mb-0">
+                        @Acoes.Count(x => x.Vies == "COMPRAR FRACO")
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+
+    </div>
+
+    <!-- TABELA -->
+    <Card>
+
+        <CardHeader>
+            <CardTitle>Lista de ações</CardTitle>
+        </CardHeader>
+
+        <CardBody>
+
+            <div class="table-responsive">
+
+                <table class="table table-vcenter table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Ação</th>
+                            <th class="text-end">PM</th>
+                            <th class="text-end">Média</th>
+                            <th class="text-end">DY (%)</th>
+                            <th class="text-end">PT</th>
+                            <th class="text-end">PT / PM</th>
+                            <th class="text-center">Viés</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var acao in Acoes.OrderBy(x => x.PM ?? 0))
+                        {
+                            <tr>
+
+                                <td>
+                                    <strong>@acao.Codigo</strong>
+                                    <div class="text-muted small">
+                                        @acao.Nome
+                                    </div>
+                                </td>
+
+                                <!-- PREÇO DE MERCADO -->
+                                <td class="text-end">
+                                    @if (acao.PM.HasValue)
+                                    {
+                                        <strong>@FormatarMoeda(acao.PM.Value)</strong>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">--</span>
+                                    }
+                                </td>
+
+                                <!-- MÉDIA -->
+                                <td class="text-end">
+                                    @FormatarMoeda(acao.Media)
+                                </td>
+
+                                <!-- DY -->
+                                <td class="text-end">
+                                    @acao.DY.ToString("N2", Cultura)
+                                </td>
+
+                                <!-- PREÇO TETO -->
+                                <td class="text-end text-success fw-bold">
+                                    @FormatarMoeda(acao.PT)
+                                </td>
+
+                                <!-- PT / PM -->
+                                <td class="text-end">
+                                    @if (acao.PM.HasValue && acao.PM.Value > 0)
+                                    {
+                                        <strong>@acao.Relacao.ToString("N2", Cultura)</strong>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">--</span>
+                                    }
+                                </td>
+
+                                <!-- VIÉS -->
+                                <td class="text-center">
+                                    @if (acao.PM.HasValue && acao.PM.Value > 0)
+                                    {
+                                        <span class="badge @ClasseBadge(acao.Vies)">
+                                            @acao.Vies
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            AGUARDANDO
+                                        </span>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- LEGENDA -->
+    <Card class="mt-4">
+
+        <CardBody>
+
+            <div class="d-flex flex-wrap gap-4">
+
+                <div>
+                    <span class="badge bg-success text-dark">COMPRAR FORTE</span>
+                    <span class="text-muted small ms-1">PT/PM ≥ 2,00</span>
+                </div>
+
+                <div>
+                    <span class="badge bg-warning text-dark">COMPRAR</span>
+                    <span class="text-muted small ms-1">PT/PM ≥ 1,49</span>
+                </div>
+
+                <div>
+                    <span class="badge bg-orange text-dark">COMPRAR FRACO</span>
+                    <span class="text-muted small ms-1">PT/PM &gt; 1,00</span>
+                </div>
+
+                <div>
+                    <span class="badge bg-danger text-dark">MANTER</span>
+                    <span class="text-muted small ms-1">PT/PM ≤ 1,00</span>
+                </div>
+
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <div class="text-muted small mt-3">
+
+        Fundamentos e dividendos fixos conforme planilha.
+        Cotação atualizada pela brapi.dev.
+
+        @if (ultimaAtualizacao != null)
+        {
+            <span>
+                Última atualização:
+                @ultimaAtualizacao.Value.ToString("dd/MM/yyyy HH:mm:ss").
+            </span>
+        }
+
+    </div>
+
+</div>
+
+<style>
+
+    .text-orange {
+        color: #f59f00 !important;
+    }
+
+    .bg-orange {
+        background-color: #f59f00 !important;
+        
+    }
+
+    .table th {
+        white-space: nowrap;
+    }
+
+    .table td {
+        white-space: nowrap;
+    }
+
+    .badge {
+        color: #000 !important;
+        font-weight: 600;
+    }
+
+</style>
+
+@code {
+
+    private static readonly CultureInfo Cultura =
+        CultureInfo.GetCultureInfo("pt-BR");
+
+    // ==========================================
+    // DADOS FIXOS DA PLANILHA
+    // Dividendos na ordem: 2020 até 2025
+    // ==========================================
+
+    private List<AcaoBarsi> Acoes = new()
+    {
+        new()
+        {
+            Codigo = "KLBN4",
+            Nome = "Klabin PN",
+            Dividendos = new double?[] { 0.17, 0.00, 0.07, 0.30, 0.27, 0.27 },
+            Media = 0.18,
+            DY = 5.00,
+            PT = 3.65
+        },
+
+        new()
+        {
+            Codigo = "POMO3",
+            Nome = "Marcopolo ON",
+            Dividendos = new double?[] { 0.06, 0.09, 0.11, 0.14, 0.33, 0.59 },
+            Media = 0.22,
+            DY = 5.00,
+            PT = 4.41
+        },
+
+        new()
+        {
+            Codigo = "CMIN3",
+            Nome = "CSN Mineração",
+            Dividendos = new double?[] { null, null, 0.47, 0.92, 0.78, 0.74 },
+            Media = 0.48,
+            DY = 5.00,
+            PT = 9.68
+        },
+
+        new()
+        {
+            Codigo = "REDE3",
+            Nome = "Rede Energia",
+            Dividendos = new double?[] { 0.46, 0.09, 0.98, 0.52, 0.71, 0.58 },
+            Media = 0.56,
+            DY = 5.00,
+            PT = 11.16
+        },
+
+        new()
+        {
+            Codigo = "BMGB4",
+            Nome = "Banco BMG",
+            Dividendos = new double?[] { 0.18, 0.32, 0.37, 0.38, 0.37, 0.55 },
+            Media = 0.36,
+            DY = 5.00,
+            PT = 7.18
+        },
+
+        new()
+        {
+            Codigo = "SAPR4",
+            Nome = "Sanepar PN",
+            Dividendos = new double?[] { 0.88, 0.20, 0.22, 0.31, 0.31, 0.32 },
+            Media = 0.37,
+            DY = 5.00,
+            PT = 7.44
+        },
+
+        new()
+        {
+            Codigo = "BEES3",
+            Nome = "Banestes ON",
+            Dividendos = new double?[] { 0.30, 0.21, 0.34, 0.59, 0.63, 0.66 },
+            Media = 0.46,
+            DY = 5.00,
+            PT = 9.14
+        },
+
+        new()
+        {
+            Codigo = "AURE3",
+            Nome = "Auren Energia",
+            Dividendos = new double?[] { null, null, 0.10, 3.00, 0.40, 0.06 },
+            Media = 0.59,
+            DY = 5.00,
+            PT = 11.86
+        },
+
+        new()
+        {
+            Codigo = "CPLE3",
+            Nome = "Copel ON",
+            Dividendos = new double?[] { 2.82, 1.19, 0.81, 0.30, 0.39, 1.22 },
+            Media = 1.12,
+            DY = 5.00,
+            PT = 22.42
+        }
+    };
+
+    // ==========================================
+    // CÁLCULOS DINÂMICOS
+    // ==========================================
+
+    private class AcaoBarsi
+    {
+        public string Codigo { get; set; } = "";
+        public string Nome { get; set; } = "";
+
+        public double?[] Dividendos { get; set; } = Array.Empty<double?>();
+
+        public double Media { get; set; }
+        public double DY { get; set; }
+        public double PT { get; set; }
+
+        // Único valor atualizado pela API
+        public double? PM { get; set; }
+
+        public double Relacao =>
+            PM.HasValue && PM.Value > 0
+                ? PT / PM.Value
+                : 0;
+
+        public string Vies =>
+            !PM.HasValue || PM.Value <= 0 ? "AGUARDANDO" :
+            Relacao >= 2.00 ? "COMPRAR FORTE" :
+            Relacao >= 1.49 ? "COMPRAR" :
+            Relacao > 1.00 ? "COMPRAR FRACO" :
+            "MANTER";
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO VISUAL
+    // ==========================================
+
+    private string ClasseBadge(string vies)
+    {
+        return vies switch
+        {
+            "COMPRAR FORTE" => "bg-success text-dark",
+            "COMPRAR" => "bg-warning text-dark",
+            "COMPRAR FRACO" => "bg-orange text-dark",
+            "MANTER" => "bg-danger text-dark",
+            _ => "bg-secondary text-dark"
+        };
+    }
+
+    // ==========================================
+    // FORMATAÇÃO
+    // ==========================================
+
+    private string FormatarMoeda(double valor)
+    {
+        return valor.ToString("C2", Cultura);
+    }
+
+    // ==========================================
+    // API BRAPI
+    // ==========================================
+
+    private bool carregando;
+    private string? erro;
+    private DateTime? ultimaAtualizacao;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AtualizarCotacoes();
+    }
+
+    private async Task AtualizarCotacoes()
+    {
+        try
+        {
+            carregando = true;
+            erro = null;
+
+            var codigosEncontrados = new HashSet<string>();
+
+            var codigosDesejados = Acoes
+                .Select(x => x.Codigo)
+                .ToHashSet();
+
+            int pagina = 1;
+            int totalPaginas = 1;
+
+            while (pagina <= totalPaginas)
+            {
+                var url =
+                    $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
+
+                var response =
+                    await Http.GetFromJsonAsync<ApiResponse>(url);
+
+                if (response?.Stocks == null)
+                    break;
+
+                totalPaginas = response.TotalPages;
+
+                foreach (var stock in response.Stocks)
+                {
+                    if (stock.StockCode == null)
+                        continue;
+
+                    if (!codigosDesejados.Contains(stock.StockCode))
+                        continue;
+
+                    var acao = Acoes.FirstOrDefault(
+                        x => x.Codigo == stock.StockCode);
+
+                    if (acao == null || !stock.Close.HasValue)
+                        continue;
+
+                    // Atualiza somente o preço de mercado
+                    acao.PM = stock.Close.Value;
+
+                    codigosEncontrados.Add(stock.StockCode);
+                }
+
+                if (codigosEncontrados.Count == codigosDesejados.Count)
+                    break;
+
+                pagina++;
+            }
+
+            var naoEncontradas = codigosDesejados
+                .Except(codigosEncontrados)
+                .ToList();
+
+            if (naoEncontradas.Any())
+            {
+                erro = "Não foi possível atualizar: " +
+                       string.Join(", ", naoEncontradas);
+            }
+
+            ultimaAtualizacao = DateTime.Now;
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao consultar brapi.dev: {ex.Message}";
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    // ==========================================
+    // MODELOS DA API
+    // ==========================================
+
+    public class ApiResponse
+    {
+        [JsonPropertyName("stocks")]
+        public List<Stock>? Stocks { get; set; }
+
+        [JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+    }
+
+    public class Stock
+    {
+        [JsonPropertyName("stock")]
+        public string? StockCode { get; set; }
+
+        [JsonPropertyName("close")]
+        public double? Close { get; set; }
+    }
+
+}

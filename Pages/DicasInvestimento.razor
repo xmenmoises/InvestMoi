@@ -1,0 +1,346 @@
+﻿@page "/DicasInvestimento"
+
+@using TabBlazor
+
+<PageTitle>Dicas de Investimento</PageTitle>
+
+<div class="container-xl py-4">
+
+    
+    <!-- CABEÇALHO -->
+
+    <div class="mb-4">
+        <h1 class="mb-1">Dicas de Investimento</h1>
+        <div class="text-muted">
+            Métodos, estratégias e orientações para analisar oportunidades na bolsa.
+        </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+
+    <Card class="mb-4">
+        <CardBody>
+            <div class="d-flex align-items-center gap-3">
+
+                <span class="avatar avatar-lg bg-primary-lt text-primary">
+                    <span class="h2 mb-0">📚</span>
+                </span>
+
+                <div>
+                    <div class="h3 mb-1">
+                        Conheça as estratégias
+                    </div>
+
+                    <div class="text-muted">
+                        Diferentes investidores utilizam critérios distintos para
+                        encontrar boas empresas e oportunidades no mercado.
+                    </div>
+                </div>
+
+            </div>
+        </CardBody>
+    </Card>
+
+    <!-- MÉTODOS -->
+
+    <h2 class="mb-3">Métodos de investimento</h2>
+
+    <div class="row row-cards mb-4">
+
+        <!-- BARSI -->
+
+        <div class="col-lg-6">
+
+            <Card>
+
+                <CardHeader>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <CardTitle>Método Barsi</CardTitle>
+                        <span class="badge bg-success-lt text-success">
+                            Dividendos
+                        </span>
+                    </div>
+                </CardHeader>
+
+                <CardBody>
+
+                    <p class="text-muted">
+                        Estratégia voltada para a construção de patrimônio
+                        e geração de renda passiva por meio de empresas
+                        que distribuem dividendos.
+                    </p>
+
+                    <h4>O que observar?</h4>
+
+                    <ul class="lh-lg mb-0">
+                        <li>Empresas com histórico consistente de pagamento de dividendos.</li>
+                        <li>Distribuição de lucros ao longo dos anos.</li>
+                        <li>Empresas com negócios sólidos e capacidade de geração de caixa.</li>
+                        <li>Setores essenciais para a economia.</li>
+                        <li>Empresas que apresentam potencial de continuidade na distribuição de proventos.</li>
+                    </ul>
+
+                </CardBody>
+
+            </Card>
+
+        </div>
+
+        <!-- BAZIN -->
+
+        <div class="col-lg-6">
+
+            <Card>
+
+                <CardHeader>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <CardTitle>Método Bazin</CardTitle>
+                        <span class="badge bg-primary-lt text-primary">
+                            Renda passiva
+                        </span>
+                    </div>
+                </CardHeader>
+
+                <CardBody>
+
+                    <p class="text-muted">
+                        Estratégia baseada na busca por ações que ofereçam
+                        bons dividendos em relação ao preço pago pelo investidor.
+                    </p>
+
+                    <h4>O que observar?</h4>
+
+                    <ul class="lh-lg mb-0">
+                        <li>Dividend Yield atrativo.</li>
+                        <li>Regularidade no pagamento de dividendos.</li>
+                        <li>Endividamento controlado.</li>
+                        <li>Empresas com histórico de bons resultados.</li>
+                        <li>Evitar empresas cujo alto Dividend Yield seja consequência de eventos extraordinários.</li>
+                    </ul>
+
+                </CardBody>
+
+            </Card>
+
+        </div>
+
+        <!-- GRAHAM -->
+
+        <div class="col-lg-6">
+
+            <Card>
+
+                <CardHeader>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <CardTitle>Método Graham</CardTitle>
+                        <span class="badge bg-warning-lt text-warning">
+                            Valor
+                        </span>
+                    </div>
+                </CardHeader>
+
+                <CardBody>
+
+                    <p class="text-muted">
+                        Estratégia de investimento em valor, buscando empresas
+                        negociadas abaixo de seu valor estimado.
+                    </p>
+
+                    <h4>O que observar?</h4>
+
+                    <ul class="lh-lg mb-0">
+                        <li>Empresas com fundamentos financeiros sólidos.</li>
+                        <li>Lucros consistentes ao longo dos anos.</li>
+                        <li>Patrimônio líquido e estrutura financeira.</li>
+                        <li>Endividamento e capacidade de pagamento.</li>
+                        <li>Comprar com margem de segurança.</li>
+                        <li>Evitar pagar caro por empresas apenas pela expectativa de crescimento.</li>
+                    </ul>
+
+                </CardBody>
+
+            </Card>
+
+        </div>
+
+        <!-- INVESTMOI -->
+
+        <div class="col-lg-6">
+
+            <Card>
+
+                <CardHeader>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <CardTitle>Estratégia InvestMoi</CardTitle>
+                        <span class="badge bg-purple-lt text-purple">
+                            Análise própria
+                        </span>
+                    </div>
+                </CardHeader>
+
+                <CardBody>
+
+                    <p class="text-muted">
+                        Combinação de critérios e indicadores para identificar
+                        oportunidades, especialmente em ações de menor valor.
+                    </p>
+
+                    <h4>O que observar?</h4>
+
+                    <ul class="lh-lg mb-0">
+                        <li>Empresas negociadas a preços acessíveis.</li>
+                        <li>Potencial de valorização.</li>
+                        <li>Indicadores fundamentalistas.</li>
+                        <li>Histórico de resultados e crescimento.</li>
+                        <li>Setor de atuação e perspectivas do negócio.</li>
+                        <li>Liquidez e volume negociado.</li>
+                    </ul>
+
+                </CardBody>
+
+            </Card>
+
+        </div>
+
+    </div>
+
+    <!-- DICAS GERAIS -->
+
+    <h2 class="mb-3">Dicas importantes</h2>
+
+    <Card class="mb-4">
+
+        <CardBody>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <div class="d-flex gap-3">
+
+                        <span class="avatar bg-success-lt text-success">
+                            ✓
+                        </span>
+
+                        <div>
+                            <div class="fw-bold mb-1">
+                                Diversifique seus investimentos
+                            </div>
+
+                            <div class="text-muted small">
+                                Evite concentrar todo o patrimônio em uma única
+                                empresa ou setor.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="d-flex gap-3">
+
+                        <span class="avatar bg-primary-lt text-primary">
+                            📊
+                        </span>
+
+                        <div>
+                            <div class="fw-bold mb-1">
+                                Analise os fundamentos
+                            </div>
+
+                            <div class="text-muted small">
+                                Não considere apenas o preço da ação.
+                                Conheça a situação financeira da empresa.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="d-flex gap-3">
+
+                        <span class="avatar bg-warning-lt text-warning">
+                            !
+                        </span>
+
+                        <div>
+                            <div class="fw-bold mb-1">
+                                Cuidado com dividendos elevados
+                            </div>
+
+                            <div class="text-muted small">
+                                Um Dividend Yield muito alto nem sempre
+                                representa uma boa oportunidade.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="d-flex gap-3">
+
+                        <span class="avatar bg-info-lt text-info">
+                            ↗
+                        </span>
+
+                        <div>
+                            <div class="fw-bold mb-1">
+                                Pense no longo prazo
+                            </div>
+
+                            <div class="text-muted small">
+                                Avalie a capacidade da empresa de continuar
+                                gerando resultados ao longo dos anos.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- AVISO -->
+
+    <div class="alert alert-warning">
+
+        <div class="d-flex">
+
+            <div class="me-3">
+                <span class="h2">⚠</span>
+            </div>
+
+            <div>
+                <h3 class="alert-title">
+                    Importante
+                </h3>
+
+                <div class="text-muted">
+                    Nenhuma estratégia garante rentabilidade.
+                    Os métodos apresentados são referências de análise e
+                    não substituem uma avaliação individual de cada empresa.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-center text-muted small mt-4">
+        InvestMoi · Guia pessoal de investimentos
+    </div>
+    
+
+</div>
