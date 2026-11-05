@@ -1,89 +1,355 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">InvestMoi</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
+﻿<div class="invest-sidebar">
+
+    <!-- CABEÇALHO -->
+    <div class="sidebar-header">
+
+        <a href="" class="invest-brand">
+            <div class="brand-icon">
+                IM
+            </div>
+
+            <div class="brand-info">
+                <span class="brand-name">InvestMoi</span>
+                <span class="brand-description">Investimentos inteligentes</span>
+            </div>
+        </a>
+
+        <button class="sidebar-toggle"
+                title="Recolher menu"
+                @onclick="ToggleNavMenu">
+            <i class="bi bi-list"></i>
         </button>
+
     </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="@NavMenuCssClass sidebar-content">
+
+        <nav class="sidebar-nav">
+
+            <!-- GERAL -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">
+                    GERAL
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <i class="bi bi-house-door nav-icon"></i>
+                        <span>Visão geral</span>
+                    </NavLink>
+                </div>
+            </div>
+
+            <!-- ANÁLISES -->
+            <div class="sidebar-section">
+
+                <div class="sidebar-section-title">
+                    ANÁLISE DE AÇÕES
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="RecomendacaoBarsi">
+                        <i class="bi bi-cash-coin nav-icon"></i>
+                        <span>Método Barsi</span>
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="RecomendacaoGraham">
+                        <i class="bi bi-calculator nav-icon"></i>
+                        <span>Método Graham</span>
+                    </NavLink>
+                </div>
+
+                @* 
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="RecomendacaoUnificada">
+                        <i class="bi bi-bar-chart-line nav-icon"></i>
+                        <span>Análise unificada</span>
+                    </NavLink>
+                </div>
+                *@
+
+            </div>
+
+            <!-- CONHECIMENTO -->
+            <div class="sidebar-section">
+
+                <div class="sidebar-section-title">
+                    CONHECIMENTO
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="DicasInvestimento">
+                        <i class="bi bi-lightbulb nav-icon"></i>
+                        <span>Dicas de investimento</span>
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="InformacoesCalculo">
+                        <i class="bi bi-journal-text nav-icon"></i>
+                        <span>Como são os cálculos?</span>
+                    </NavLink>
+                </div>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+    <!-- RODAPÉ -->
+    <div class="sidebar-footer">
+
+        <div class="footer-icon">
+            <i class="bi bi-shield-check"></i>
+        </div>
+
+        <div>
+            <div class="footer-title">InvestMoi</div>
+            <div class="footer-version">Painel de investimentos</div>
+        </div>
+
+    </div>
+
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>@*
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div> 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div> *@
-        @* <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ListaAcoes">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Todas as Ações
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ListaAcoes5">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Ações até R$ 5
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ListaAcoes10">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Ações R$ 5 até R$ 10
-            </NavLink>
-        </div> *@        
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="RecomendacaoBarsi">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Reco. Método Barsi
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="RecomendacaoGraham">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Reco. Método Graham
-            </NavLink>
-        </div>
-        @* <div class="nav-item px-3">
-            <NavLink class="nav-link" href="RecomendacaoUnificada">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Reco. Unificada
-            </NavLink>
-        </div> *@
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="DicasInvestimento">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Dicas de Investimento
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="InformacoesCalculo">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Como é o cálculo?
-            </NavLink>
-        </div>
-        @* <div class="nav-item px-3">
-            <NavLink class="nav-link" href="TabBlazorTeste">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Teste TabBlazor
-            </NavLink>
-        </div> *@
-        @* <div class="nav-item px-3">
-            <NavLink class="nav-link" href="TesteBarsiKLBN4">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Teste Barsi KLBN4
-            </NavLink>
-        </div> *@
-    </nav>
-</div>
+<style>
+
+    /* =====================================
+           INVESTMOI SIDEBAR
+        ===================================== */
+
+    .invest-sidebar {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        background: #ffffff;
+        border-right: 1px solid #e5e7eb;
+        color: #344054;
+        font-family: inherit;
+    }
+
+    /* CABEÇALHO */
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 16px;
+        min-height: 76px;
+        border-bottom: 1px solid #edf0f2;
+    }
+
+    .invest-brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        text-decoration: none;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #206bc4;
+        color: #ffffff;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+    .brand-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #182433;
+        line-height: 1.2;
+    }
+
+    .brand-description {
+        font-size: 11px;
+        color: #667085;
+        margin-top: 3px;
+    }
+
+    .sidebar-toggle {
+        border: 0;
+        background: transparent;
+        color: #667085;
+        font-size: 21px;
+        padding: 5px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+        .sidebar-toggle:hover {
+            background: #f2f4f7;
+            color: #206bc4;
+        }
+
+    /* CONTEÚDO */
+
+    .sidebar-content {
+        flex: 1;
+        padding: 20px 12px;
+        overflow-y: auto;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 23px;
+    }
+
+    /* SEÇÕES */
+
+    .sidebar-section {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .sidebar-section-title {
+        padding: 0 11px;
+        margin-bottom: 7px;
+        color: #98a2b3;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.9px;
+    }
+
+    /* CORREÇÃO DOS ESTILOS PADRÃO DO BLAZOR */
+
+    .invest-sidebar .nav-item {
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: inherit !important;
+    }
+
+    .invest-sidebar .nav-link {
+        display: flex !important;
+        align-items: center;
+        gap: 11px;
+        width: 100%;
+        min-height: 40px;
+        padding: 9px 11px !important;
+        margin: 0;
+        border-radius: 6px;
+        color: #475467 !important;
+        background: transparent;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background .15s ease, color .15s ease;
+        opacity: 1 !important;
+    }
+
+        .invest-sidebar .nav-link:hover {
+            background: #f5f7fa !important;
+            color: #206bc4 !important;
+        }
+
+    .nav-icon {
+        width: 19px;
+        min-width: 19px;
+        text-align: center;
+        font-size: 17px;
+        color: #667085;
+    }
+
+    .invest-sidebar .nav-link:hover .nav-icon {
+        color: #206bc4;
+    }
+
+    /* PÁGINA ATIVA */
+
+    .invest-sidebar .nav-link.active {
+        background: #eaf2fc !important;
+        color: #206bc4 !important;
+        font-weight: 700 !important;
+        position: relative;
+    }
+
+        .invest-sidebar .nav-link.active .nav-icon {
+            color: #206bc4;
+        }
+
+        .invest-sidebar .nav-link.active::after {
+            content: "";
+            position: absolute;
+            right: 11px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #206bc4;
+        }
+
+    /* RODAPÉ */
+
+    .sidebar-footer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 16px;
+        border-top: 1px solid #edf0f2;
+    }
+
+    .footer-icon {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #edf7f0;
+        color: #2fb344;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    .footer-title {
+        color: #344054;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .footer-version {
+        color: #667085;
+        font-size: 10px;
+        margin-top: 2px;
+    }
+
+    /* MOBILE */
+
+    @@media (max-width: 768px) {
+        .invest-sidebar {
+            min-height: auto;
+        }
+    }
+
+</style>
 
 @code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private bool collapseNavMenu = false;
+
+    private string? NavMenuCssClass =>
+        collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
 }
