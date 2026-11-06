@@ -24,7 +24,7 @@
                 @onclick="AtualizarCotacoes"
                 disabled="@carregando">
 
-            @(carregando ? "Atualizando..." : "Atualizar cotações")
+            @(carregando ? " Atualizando... " : " Atualizar ")
         </button>
     </div>
 
@@ -43,53 +43,6 @@
         </div>
     }
 
-    <!-- RESUMO -->
-    <div class="row row-cards mb-4">
-
-        <div class="col-sm-6 col-lg-3">
-            <Card>
-                <CardBody>
-                    <div class="subheader">Ações analisadas</div>
-                    <div class="h1 mb-0">@Acoes.Count</div>
-                </CardBody>
-            </Card>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <Card>
-                <CardBody>
-                    <div class="subheader">Comprar forte</div>
-                    <div class="h1 text-success mb-0">
-                        @Acoes.Count(x => x.Vies == "COMPRAR FORTE")
-                    </div>
-                </CardBody>
-            </Card>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <Card>
-                <CardBody>
-                    <div class="subheader">Comprar</div>
-                    <div class="h1 text-warning mb-0">
-                        @Acoes.Count(x => x.Vies == "COMPRAR")
-                    </div>
-                </CardBody>
-            </Card>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <Card>
-                <CardBody>
-                    <div class="subheader">Comprar fraco</div>
-                    <div class="h1 text-orange mb-0">
-                        @Acoes.Count(x => x.Vies == "COMPRAR FRACO")
-                    </div>
-                </CardBody>
-            </Card>
-        </div>
-
-    </div>
-
     <!-- TABELA -->
     <Card>
 
@@ -107,12 +60,12 @@
                         <tr>
                             <th>Ação</th>
                             <th class="text-end">PM</th>
-                            <th class="text-end">Média</th>
-                            <th class="text-end">DY (%)</th>
-                            <th class="text-end">PT</th>
-                            <th class="text-end">PT / PM</th>
+                            <th class="text-end d-none d-md-table-cell">Média</th>
+                            <th class="text-end d-none d-md-table-cell">DY (%)</th>
+                            <th class="text-end d-none d-md-table-cell">PT</th>
+                            <th class="text-end d-none d-md-table-cell">PT / PM</th>
                             <th class="text-center">Viés</th>
-                            <th class="text-center">BESST</th>
+                            <th class="text-center d-none d-md-table-cell">BESST</th>
                         </tr>
                     </thead>
 
@@ -122,6 +75,7 @@
                         {
                             <tr>
 
+                                <!-- AÇÃO -->
                                 <td>
                                     <strong>@acao.Codigo</strong>
                                     <div class="text-muted small">
@@ -142,22 +96,22 @@
                                 </td>
 
                                 <!-- MÉDIA -->
-                                <td class="text-end">
+                                <td class="text-end d-none d-md-table-cell">
                                     @FormatarMoeda(acao.Media)
                                 </td>
 
                                 <!-- DY -->
-                                <td class="text-end">
+                                <td class="text-end d-none d-md-table-cell">
                                     @acao.DY.ToString("N2", Cultura)
                                 </td>
 
                                 <!-- PREÇO TETO -->
-                                <td class="text-end text-success fw-bold">
+                                <td class="text-end d-none d-md-table-cell text-success fw-bold">
                                     @FormatarMoeda(acao.PT)
                                 </td>
 
                                 <!-- PT / PM -->
-                                <td class="text-end">
+                                <td class="text-end d-none d-md-table-cell">
                                     @if (acao.PM.HasValue && acao.PM.Value > 0)
                                     {
                                         <strong>@acao.Relacao.ToString("N2", Cultura)</strong>
@@ -185,7 +139,7 @@
                                 </td>
 
                                 <!-- BESST -->
-                                <td class="text-center">
+                                <td class="text-center d-none d-md-table-cell">
                                     @if (acao.Besst)
                                     {
                                         <span class="badge bg-success text-dark">SIM</span>
@@ -215,6 +169,11 @@
         <CardBody>
 
             <div class="d-flex flex-wrap gap-4">
+
+                <div>
+                    <span class="badge bg-info text-dark">PM</span>
+                    <span class="text-muted small ms-1">Preço no Mercado (Preço Atual)</span>
+                </div>
 
                 <div>
                     <span class="badge bg-success text-dark">COMPRAR FORTE</span>
@@ -267,7 +226,6 @@
 
     .bg-orange {
         background-color: #f59f00 !important;
-        
     }
 
     .table th {
