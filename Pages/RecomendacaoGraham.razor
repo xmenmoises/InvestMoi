@@ -52,9 +52,9 @@
 
         <CardBody>
 
-            <div class="table-responsive">
+            <div class="table-responsive acoes-responsive">
 
-                <table class="table table-vcenter table-hover">
+                <table class="table table-vcenter table-hover acoes-table">
 
                     <thead>
                         <tr>
@@ -204,7 +204,6 @@
 
     <div class="text-muted small mt-3">
 
-        Fundamentos e margem de segurança fixos conforme planilha.
         Cotação atualizada pela brapi.dev.
 
         @if (ultimaAtualizacao != null)
@@ -245,6 +244,54 @@
     .bg-comprar {
         background-color: #ffeb00 !important;
         color: #000 !important;
+    }
+
+    /* TABELA MOBILE */
+    @@media (max-width: 767.98px) {
+
+        .acoes-responsive {
+            overflow-x: hidden !important;
+            width: 100%;
+        }
+
+        .acoes-table {
+            width: 100% !important;
+            min-width: 0 !important;
+            table-layout: fixed;
+            margin-bottom: 0;
+        }
+            /* Largura das colunas */
+            .acoes-table th:nth-child(1),
+            .acoes-table td:nth-child(1) {
+                width: 40%;
+            }
+
+            .acoes-table th:nth-child(2),
+            .acoes-table td:nth-child(2) {
+                width: 25%;
+            }
+
+            .acoes-table th:nth-child(7),
+            .acoes-table td:nth-child(7) {
+                width: 35%;
+            }
+            /* Reduz espaçamento interno */
+            .acoes-table th,
+            .acoes-table td {
+                padding: 0.65rem 0.35rem !important;
+                font-size: 12px;
+            }
+                /* Valores */
+                .acoes-table td:nth-child(2) {
+                    white-space: nowrap;
+                    font-size: 11px;
+                }
+            /* Badges */
+            .acoes-table .badge {
+                font-size: 10px;
+                padding: 0.3rem 0.4rem;
+                white-space: nowrap;
+            }
     }
 
 </style>
