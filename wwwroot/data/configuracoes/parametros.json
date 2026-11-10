@@ -3,7 +3,8 @@
     "DY_Padrao": 5
   },
   "Analise_Graham": {
-    "Fator_Valor_Intrinseco": 22.5
+    "Fator_Valor_Intrinseco": 22.5,
+    "Margem_Seguranca": 20
   },
   "Vies": {
     "COMPRAR FORTE": 2.0,
