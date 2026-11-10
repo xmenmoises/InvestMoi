@@ -65,13 +65,12 @@
                             <th class="text-end d-none d-md-table-cell">PT</th>
                             <th class="text-end d-none d-md-table-cell">PT / PM</th>
                             <th class="text-center">Viés</th>
-                            <th class="text-center d-none d-md-table-cell">BESST</th>
                         </tr>
                     </thead>
 
                     <tbody>
 
-                        @foreach (var acao in Acoes.OrderBy(x => x.PM ?? 0))
+                        @foreach (var acao in Acoes.OrderBy(x => x.PM))
                         {
                             <tr>
 
@@ -85,9 +84,9 @@
 
                                 <!-- PREÇO DE MERCADO -->
                                 <td class="text-end">
-                                    @if (acao.PM.HasValue)
+                                    @if (acao.TemCotacao)
                                     {
-                                        <strong>@FormatarMoeda(acao.PM.Value)</strong>
+                                        <strong>@FormatarMoeda(acao.PM)</strong>
                                     }
                                     else
                                     {
@@ -112,7 +111,7 @@
 
                                 <!-- PT / PM -->
                                 <td class="text-end d-none d-md-table-cell">
-                                    @if (acao.PM.HasValue && acao.PM.Value > 0)
+                                    @if (acao.TemCotacao && acao.PM > 0)
                                     {
                                         <strong>@acao.Relacao.ToString("N2", Cultura)</strong>
                                     }
@@ -121,13 +120,14 @@
                                         <span class="text-muted">--</span>
                                     }
                                 </td>
-
                                 <!-- VIÉS -->
                                 <td class="text-center">
-                                    @if (acao.PM.HasValue && acao.PM.Value > 0)
+                                    @if (acao.TemCotacao && acao.PM > 0)
                                     {
-                                        <span class="badge @ClasseBadge(acao.Vies)">
-                                            @acao.Vies
+                                        var vies = CalcularVies(acao);
+
+                                        <span class="badge @ClasseBadge(vies)">
+                                            @vies
                                         </span>
                                     }
                                     else
@@ -135,18 +135,6 @@
                                         <span class="badge bg-secondary">
                                             AGUARDANDO
                                         </span>
-                                    }
-                                </td>
-
-                                <!-- BESST -->
-                                <td class="text-center d-none d-md-table-cell">
-                                    @if (acao.Besst)
-                                    {
-                                        <span class="badge bg-success text-dark">SIM</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger text-dark">NÃO</span>
                                     }
                                 </td>
 
@@ -202,7 +190,7 @@
     </Card>
 
     <div class="text-muted small mt-3">
-        
+
         Cotação atualizada pela brapi.dev.
 
         @if (ultimaAtualizacao != null)
@@ -301,143 +289,209 @@
         CultureInfo.GetCultureInfo("pt-BR");
 
     // ==========================================
-    // DADOS FIXOS DA PLANILHA
-    // Dividendos na ordem: 2020 até 2025
+    // PARÂMETROS
     // ==========================================
 
-    private List<AcaoBarsi> Acoes = new()
+    private class ParametrosConfig
     {
-        new()
-        {
-            Codigo = "KLBN4",
-            Nome = "Klabin PN",
-            Dividendos = new double?[] { 0.17, 0.00, 0.07, 0.30, 0.27, 0.27 },
-            Media = 0.18,
-            DY = 5.00,
-            PT = 3.65,
-            Besst = false
-        },
+        [JsonPropertyName("Analise_Barsi")]
+        public AnaliseBarsiConfig AnaliseBarsi { get; set; } = new();
 
-        new()
-        {
-            Codigo = "POMO3",
-            Nome = "Marcopolo ON",
-            Dividendos = new double?[] { 0.06, 0.09, 0.11, 0.14, 0.33, 0.59 },
-            Media = 0.22,
-            DY = 5.00,
-            PT = 4.41,
-            Besst = false
-        },
+        [JsonPropertyName("Vies")]
+        public Dictionary<string, double> Vies { get; set; } = new();
+    }
 
-        new()
-        {
-            Codigo = "CMIN3",
-            Nome = "CSN Mineração",
-            Dividendos = new double?[] { null, null, 0.47, 0.92, 0.78, 0.74 },
-            Media = 0.48,
-            DY = 5.00,
-            PT = 9.68,
-            Besst = false
-        },
+    private class AnaliseBarsiConfig
+    {
+        [JsonPropertyName("DY_Padrao")]
+        public double DY_Padrao { get; set; }
+    }
 
-        new()
+    private ParametrosConfig Parametros = new()
+    {
+        AnaliseBarsi = new()
         {
-            Codigo = "REDE3",
-            Nome = "Rede Energia",
-            Dividendos = new double?[] { 0.46, 0.09, 0.98, 0.52, 0.71, 0.58 },
-            Media = 0.56,
-            DY = 5.00,
-            PT = 11.16,
-            Besst = true
+            DY_Padrao = 5
         },
-
-        new()
+        Vies = new()
         {
-            Codigo = "BMGB4",
-            Nome = "Banco BMG",
-            Dividendos = new double?[] { 0.18, 0.32, 0.37, 0.38, 0.37, 0.55 },
-            Media = 0.36,
-            DY = 5.00,
-            PT = 7.18,
-            Besst = true
-        },
-
-        new()
-        {
-            Codigo = "SAPR4",
-            Nome = "Sanepar PN",
-            Dividendos = new double?[] { 0.88, 0.20, 0.22, 0.31, 0.31, 0.32 },
-            Media = 0.37,
-            DY = 5.00,
-            PT = 7.44,
-            Besst = true
-        },
-
-        new()
-        {
-            Codigo = "BEES3",
-            Nome = "Banestes ON",
-            Dividendos = new double?[] { 0.30, 0.21, 0.34, 0.59, 0.63, 0.66 },
-            Media = 0.46,
-            DY = 5.00,
-            PT = 9.14,
-            Besst = true
-        },
-
-        new()
-        {
-            Codigo = "AURE3",
-            Nome = "Auren Energia",
-            Dividendos = new double?[] { null, null, 0.10, 3.00, 0.40, 0.06 },
-            Media = 0.59,
-            DY = 5.00,
-            PT = 11.86,
-            Besst = true
-        },
-
-        new()
-        {
-            Codigo = "CPLE3",
-            Nome = "Copel ON",
-            Dividendos = new double?[] { 2.82, 1.19, 0.81, 0.30, 0.39, 1.22 },
-            Media = 1.12,
-            DY = 5.00,
-            PT = 22.42,
-            Besst = true
+            ["COMPRAR FORTE"] = 2.00,
+            ["COMPRAR"] = 1.49,
+            ["COMPRAR FRACO"] = 1.00,
+            ["MANTER"] = 0.99
         }
     };
 
+    private async Task CarregarParametros()
+    {
+        var parametros =
+            await Http.GetFromJsonAsync<ParametrosConfig>(
+                "data/configuracoes/parametros.json"
+            );
+
+        if (parametros == null)
+            throw new Exception("Não foi possível carregar parametros.json.");
+
+        string[] chaves =
+        {
+            "COMPRAR FORTE",
+            "COMPRAR",
+            "COMPRAR FRACO",
+            "MANTER"
+        };
+
+        foreach (var chave in chaves)
+        {
+            if (!parametros.Vies.ContainsKey(chave))
+                throw new Exception($"Parâmetro de viés ausente: {chave}");
+        }
+
+        if (parametros.AnaliseBarsi.DY_Padrao <= 0)
+            throw new Exception("DY padrão inválido.");
+
+        Parametros = parametros;
+    }
+
     // ==========================================
-    // CÁLCULOS DINÂMICOS
+    // MODELO DOS ARQUIVOS JSON
     // ==========================================
 
     private class AcaoBarsi
     {
+        [JsonPropertyName("Codigo")]
         public string Codigo { get; set; } = "";
+
+        [JsonPropertyName("Nome")]
         public string Nome { get; set; } = "";
 
-        public double?[] Dividendos { get; set; } = Array.Empty<double?>();
+        [JsonPropertyName("Analise_Barsi")]
+        public DadosBarsi AnaliseBarsi { get; set; } = new();
 
-        public double Media { get; set; }
+        [JsonPropertyName("Analise_Graham")]
+        public DadosGraham AnaliseGraham { get; set; } = new();
+
+        // Valores calculados em tempo de execução
+
         public double DY { get; set; }
-        public double PT { get; set; }
 
-        // Único valor atualizado pela API
-        public double? PM { get; set; }
+        public double PM { get; set; }
+        public bool TemCotacao { get; set; }
 
-        public double Relacao =>
-            PM.HasValue && PM.Value > 0
-                ? PT / PM.Value
+        // Média dos dividendos anuais encontrados no JSON
+        public double Media =>
+            AnaliseBarsi.Dividendos != null &&
+            AnaliseBarsi.Dividendos.Count > 0
+                ? AnaliseBarsi.Dividendos.Values.Average()
                 : 0;
 
-        public string Vies =>
-            !PM.HasValue || PM.Value <= 0 ? "AGUARDANDO" :
-            Relacao >= 2.00 ? "COMPRAR FORTE" :
-            Relacao >= 1.49 ? "COMPRAR" :
-            Relacao > 1.00 ? "COMPRAR FRACO" :
-            "MANTER";
+        // Preço-teto calculado com o DY configurado
+        public double PT =>
+            DY > 0
+                ? Media / (DY / 100)
+                : 0;
 
-        public bool Besst { get; set; }
+        // Relação entre preço-teto e preço de mercado
+        public double Relacao =>
+            TemCotacao && PM > 0
+                ? PT / PM
+                : 0;
+
+    }
+
+    private class DadosBarsi
+    {
+        [JsonPropertyName("Dividendos")]
+        public Dictionary<string, double> Dividendos { get; set; } = new();
+    }
+
+    private class DadosGraham
+    {
+        [JsonPropertyName("LPA")]
+        public double LPA { get; set; }
+
+        [JsonPropertyName("VPA")]
+        public double VPA { get; set; }
+    }
+
+    // ==========================================
+    // LISTA DINÂMICA DE AÇÕES
+    // ==========================================
+
+    private List<AcaoBarsi> Acoes = new();
+
+    private async Task CarregarAcoes()
+    {
+        Acoes.Clear();
+
+        // Lê o índice com os códigos das ações
+        var codigos = await Http.GetFromJsonAsync<List<string>>(
+            "data/acoes/index.json"
+        );
+
+        if (codigos == null || codigos.Count == 0)
+            throw new Exception("Nenhuma ação encontrada em index.json.");
+
+        var codigosUnicos = codigos
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var codigo in codigosUnicos)
+        {
+            try
+            {
+                // Carrega o JSON individual da ação
+                var acao = await Http.GetFromJsonAsync<AcaoBarsi>(
+                    $"data/acoes/{codigo}.json"
+                );
+
+                if (acao == null)
+                    continue;
+
+                if (string.IsNullOrWhiteSpace(acao.Codigo))
+                    continue;
+
+                // Aplica o DY configurado
+                acao.DY = Parametros.AnaliseBarsi.DY_Padrao;
+
+                Acoes.Add(acao);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"Erro ao carregar {codigo}.json: {ex.Message}"
+                );
+            }
+        }
+
+        if (Acoes.Count == 0)
+            throw new Exception("Não foi possível carregar nenhuma ação.");
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO DINÂMICA
+    // ==========================================
+
+    private string CalcularVies(AcaoBarsi acao)
+    {
+        if (!acao.TemCotacao || acao.PM <= 0)
+            return "AGUARDANDO";
+
+        double relacao = acao.Relacao;
+
+        double comprarForte = Parametros.Vies["COMPRAR FORTE"];
+        double comprar = Parametros.Vies["COMPRAR"];
+        double comprarFraco = Parametros.Vies["COMPRAR FRACO"];
+
+        if (relacao >= comprarForte)
+            return "COMPRAR FORTE";
+
+        if (relacao >= comprar)
+            return "COMPRAR";
+
+        if (relacao > comprarFraco)
+            return "COMPRAR FRACO";
+
+        return "MANTER";
     }
 
     // ==========================================
@@ -466,7 +520,7 @@
     }
 
     // ==========================================
-    // API BRAPI
+    // INICIALIZAÇÃO
     // ==========================================
 
     private bool carregando;
@@ -475,84 +529,132 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await AtualizarCotacoes();
-    }
-
-    private async Task AtualizarCotacoes()
-    {
         try
         {
             carregando = true;
-            erro = null;
 
-            var codigosEncontrados = new HashSet<string>();
+            // 1. Carrega parâmetros
+            await CarregarParametros();
 
-            var codigosDesejados = Acoes
-                .Select(x => x.Codigo)
-                .ToHashSet();
+            // 2. Carrega todas as ações dos JSONs
+            await CarregarAcoes();
 
-            int pagina = 1;
-            int totalPaginas = 1;
-
-            while (pagina <= totalPaginas)
-            {
-                var url =
-                    $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
-
-                var response =
-                    await Http.GetFromJsonAsync<ApiResponse>(url);
-
-                if (response?.Stocks == null)
-                    break;
-
-                totalPaginas = response.TotalPages;
-
-                foreach (var stock in response.Stocks)
-                {
-                    if (stock.StockCode == null)
-                        continue;
-
-                    if (!codigosDesejados.Contains(stock.StockCode))
-                        continue;
-
-                    var acao = Acoes.FirstOrDefault(
-                        x => x.Codigo == stock.StockCode);
-
-                    if (acao == null || !stock.Close.HasValue)
-                        continue;
-
-                    // Atualiza somente o preço de mercado
-                    acao.PM = stock.Close.Value;
-
-                    codigosEncontrados.Add(stock.StockCode);
-                }
-
-                if (codigosEncontrados.Count == codigosDesejados.Count)
-                    break;
-
-                pagina++;
-            }
-
-            var naoEncontradas = codigosDesejados
-                .Except(codigosEncontrados)
-                .ToList();
-
-            if (naoEncontradas.Any())
-            {
-                erro = "Não foi possível atualizar: " +
-                       string.Join(", ", naoEncontradas);
-            }
-
-            ultimaAtualizacao = DateTime.Now;
+            // 3. Atualiza cotações
+            await ConsultarCotacoes();
         }
         catch (Exception ex)
         {
-            erro = $"Erro ao consultar brapi.dev: {ex.Message}";
+            erro = $"Erro ao inicializar recomendações: {ex.Message}";
         }
         finally
         {
             carregando = false;
         }
+    }
+
+    // ==========================================
+    // ATUALIZAÇÃO MANUAL
+    // ==========================================
+
+    private async Task AtualizarCotacoes()
+    {
+        if (carregando)
+            return;
+
+        try
+        {
+            carregando = true;
+            erro = null;
+
+            // Recarrega também os arquivos JSON e parâmetros
+            await CarregarParametros();
+            await CarregarAcoes();
+
+            await ConsultarCotacoes();
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao atualizar: {ex.Message}";
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    // ==========================================
+    // API BRAPI
+    // ==========================================
+
+    private async Task ConsultarCotacoes()
+    {
+        var codigosDesejados = Acoes
+            .Select(x => x.Codigo)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var codigosEncontrados = new HashSet<string>(
+            StringComparer.OrdinalIgnoreCase
+        );
+
+        int pagina = 1;
+        int totalPaginas = 1;
+
+        while (pagina <= totalPaginas)
+        {
+            var url =
+                $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
+
+            var response =
+                await Http.GetFromJsonAsync<ApiResponse>(url);
+
+            if (response?.Stocks == null)
+                break;
+
+            totalPaginas = response.TotalPages;
+
+            foreach (var stock in response.Stocks)
+            {
+                if (string.IsNullOrWhiteSpace(stock.StockCode))
+                    continue;
+
+                if (!codigosDesejados.Contains(stock.StockCode))
+                    continue;
+
+                var acao = Acoes.FirstOrDefault(
+                    x => string.Equals(
+                        x.Codigo,
+                        stock.StockCode,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                );
+
+                if (acao == null || !stock.Close.HasValue)
+                    continue;
+
+                // Atualiza somente o preço de mercado
+                acao.PM = stock.Close.Value;
+                acao.TemCotacao = true;
+
+                codigosEncontrados.Add(stock.StockCode);
+            }
+
+            if (codigosEncontrados.Count == codigosDesejados.Count)
+                break;
+
+            pagina++;
+        }
+
+        var naoEncontradas = codigosDesejados
+            .Except(codigosEncontrados)
+            .ToList();
+
+        if (naoEncontradas.Any())
+        {
+            erro = "Não foi possível atualizar: " +
+                   string.Join(", ", naoEncontradas);
+        }
+
+        ultimaAtualizacao = DateTime.Now;
     }
 
     // ==========================================
@@ -576,5 +678,6 @@
         [JsonPropertyName("close")]
         public double? Close { get; set; }
     }
+
 
 }

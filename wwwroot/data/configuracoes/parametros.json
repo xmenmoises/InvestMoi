@@ -4,5 +4,11 @@
   },
   "Analise_Graham": {
     "Fator_Valor_Intrinseco": 22.5
+  },
+  "Vies": {
+    "COMPRAR FORTE": 2.0,
+    "COMPRAR": 1.49,
+    "COMPRAR FRACO": 1.00,
+    "MANTER": 0.99
   }
 }
