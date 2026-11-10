@@ -1,0 +1,11 @@
+{
+  "Codigo": "KLBN4",
+  "Nome": "Klabin S.A.",
+  "Analise_Barsi": {
+    "Dividendos": [ 0.17, 0.00, 0.07, 0.30, 0.27, 0.27 ]
+  },
+  "Analise_Graham": {
+    "LPA": 0.09,
+    "VPA": 1.52
+  }
+}
