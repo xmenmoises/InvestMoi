@@ -320,6 +320,9 @@
     {
         [JsonPropertyName("Fator_Valor_Intrinseco")]
         public double Fator_Valor_Intrinseco { get; set; }
+
+        [JsonPropertyName("Margem_Seguranca")]
+        public double Margem_Seguranca { get; set; }
     }
 
     private ParametrosConfig Parametros = new()
@@ -349,6 +352,9 @@
 
         if (parametros.AnaliseGraham.Fator_Valor_Intrinseco <= 0)
             throw new Exception("Fator de valor intrínseco inválido.");
+
+        if (parametros.AnaliseGraham.Margem_Seguranca < 0 || parametros.AnaliseGraham.Margem_Seguranca >= 100)
+            throw new Exception("Margem de segurança deve estar entre 0 e 100.");
 
         string[] chaves =
         {
@@ -398,8 +404,8 @@
                   )
                 : 0;
 
-        // Margem de segurança mantida em 20%
-        public double MS { get; set; } = 20.00;
+        // Margem de segurança
+        public double MS { get; set; }
 
         // Preço-teto
         public double PT =>
@@ -472,8 +478,8 @@
                 acao.FatorIntrinseco =
                     Parametros.AnaliseGraham.Fator_Valor_Intrinseco;
 
-                // Mantém margem de segurança de 20%
-                acao.MS = 20.00;
+                // Aplica margem de segurança configurada no JSON
+                acao.MS = Parametros.AnaliseGraham.Margem_Seguranca;
 
                 // Só adiciona ações com dados válidos
                 if (acao.LPA <= 0 || acao.VPA <= 0)
