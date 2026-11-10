@@ -1,0 +1,17 @@
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\bin\Debug\net10.0\InvestMoiBot.exe
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\bin\Debug\net10.0\InvestMoiBot.deps.json
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\bin\Debug\net10.0\InvestMoiBot.runtimeconfig.json
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\bin\Debug\net10.0\InvestMoiBot.dll
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\bin\Debug\net10.0\InvestMoiBot.pdb
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\bin\Debug\net10.0\HtmlAgilityPack.dll
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.csproj.AssemblyReference.cache
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.AssemblyInfoInputs.cache
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.AssemblyInfo.cs
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.csproj.CoreCompileInputs.cache
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMo.57691312.Up2Date
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.dll
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\refint\InvestMoiBot.dll
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.pdb
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\InvestMoiBot.genruntimeconfig.cache
+C:\Users\positivo.moises\Documents\GitHub\InvestMoiBot\obj\Debug\net10.0\ref\InvestMoiBot.dll

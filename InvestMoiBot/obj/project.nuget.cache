@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "QfcOKHsRI3Y=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\positivo.moises\\Documents\\GitHub\\InvestMoiBot\\InvestMoiBot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\positivo.moises\\.nuget\\packages\\htmlagilitypack\\1.13.1\\htmlagilitypack.1.13.1.nupkg.sha512"
+  ],
+  "logs": []
+}
