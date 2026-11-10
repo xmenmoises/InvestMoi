@@ -8,6 +8,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="InvestMoiBot\InvestMoiBot.csproj" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\COMMIT_EDITMSG" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\config" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\description" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\FETCH_HEAD" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\HEAD" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\applypatch-msg.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\commit-msg.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\fsmonitor-watchman.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\post-update.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\pre-applypatch.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\pre-commit.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\pre-merge-commit.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\pre-push.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\pre-rebase.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\pre-receive.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\prepare-commit-msg.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\push-to-checkout.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\sendemail-validate.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\hooks\update.sample" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\index" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\info\exclude" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\logs\HEAD" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\logs\refs\heads\main" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\logs\refs\remotes\origin\HEAD" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\logs\refs\remotes\origin\main" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\objects\6f\9509c88bed7080d496fc5e1d87a9315e30549d" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\objects\96\545a1b1ac4470f80e42d387363a195cc188d71" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\objects\df\e0770424b2a19faf507a501ebfc23be8f54e7b" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\refs\heads\main" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\refs\remotes\origin\HEAD" />
+    <None Include="InvestMoiBot\InvestMoiBot\.git\refs\remotes\origin\main" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.14" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" Version="9.12.0" />
@@ -16,6 +51,10 @@
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InvestMoiBot\bin\Debug\net10.0\dados\acoes\" />
   </ItemGroup>
 
 </Project>
