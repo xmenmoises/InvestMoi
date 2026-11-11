@@ -80,48 +80,271 @@
         </div>
 
 
-        <!-- FUNDAMENTOS DINÂMICOS -->
+        <!-- FUNDAMENTOS DA EMPRESA -->
         @if (Fundamentos.HasValue &&
-             Fundamentos.Value.ValueKind == JsonValueKind.Object &&
-             Fundamentos.Value.EnumerateObject().Any())
+             Fundamentos.Value.ValueKind == JsonValueKind.Object)
         {
             <Card class="mb-4">
 
                 <CardHeader>
-                    <CardTitle>Indicadores Fundamentalistas e Informações</CardTitle>
+                    <CardTitle>Fundamentos da empresa</CardTitle>
                 </CardHeader>
 
                 <CardBody>
 
-                    <div class="row g-3">
+                    <!-- IDENTIFICAÇÃO -->
+                    @if (TemCampos("Tipo", "Setor", "Subsetor"))
+                    {
+                        <div class="mb-4">
+                            <h3 class="mb-3">Identificação</h3>
 
-                        @foreach (var campo in Fundamentos.Value.EnumerateObject())
-                        {
-                            @if (campo.Value.ValueKind != JsonValueKind.Object &&
-                                 campo.Value.ValueKind != JsonValueKind.Array)
-                            {
-                                <div class="col-6 col-md-4 col-lg-3">
-
-                                    <div class="border rounded p-3 h-100">
-
-                                        <div class="text-muted small mb-1">
-                                            @FormatarNome(campo.Name)
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos("Tipo", "Setor", "Subsetor"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
                                         </div>
-
-                                        <div class="h3 mb-0">
-                                            @FormatarValor(campo.Name, campo.Value)
-                                        </div>
-
                                     </div>
+                                }
+                            </div>
+                        </div>
+                    }
 
-                                </div>
-                            }
-                        }
+                    <!-- VALUATION -->
+                    @if (TemCampos("P_L", "P_VP", "P_EBIT", "PSR",
+                                 "P_Ativos", "P_Cap_Giro", "P_Ativ_Circ_Liq"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Valuation</h3>
 
-                    </div>
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "P_L", "P_VP", "P_EBIT", "PSR",
+                                    "P_Ativos", "P_Cap_Giro", "P_Ativ_Circ_Liq"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- INDICADORES -->
+                    @if (TemCampos("Div_Yield", "EV_EBITDA", "EV_EBIT", "LPA", "VPA"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Indicadores</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "Div_Yield", "EV_EBITDA", "EV_EBIT", "LPA", "VPA"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- CRESCIMENTO E MARGENS -->
+                    @if (TemCampos("Cres_Rec_5a", "Marg_Bruta",
+                                 "Marg_EBIT", "Marg_Liquida"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Crescimento e margens</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "Cres_Rec_5a", "Marg_Bruta",
+                                    "Marg_EBIT", "Marg_Liquida"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- RENTABILIDADE -->
+                    @if (TemCampos("EBIT_Ativo", "ROIC", "ROE", "Giro_Ativos"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Rentabilidade</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "EBIT_Ativo", "ROIC", "ROE", "Giro_Ativos"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- LIQUIDEZ E ENDIVIDAMENTO -->
+                    @if (TemCampos("Liquidez_Corr", "Div_Liq_Patrim"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Liquidez e endividamento</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "Liquidez_Corr", "Div_Liq_Patrim"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- BALANÇO -->
+                    @if (TemCampos("Valor_de_mercado", "Valor_da_firma",
+                                 "Nro_Acoes", "Ativo", "Disponibilidades",
+                                 "Ativo_Circulante", "Div_Bruta", "Div_Liquida",
+                                 "Patrim_Liq"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Balanço patrimonial</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "Valor_de_mercado", "Valor_da_firma",
+                                    "Nro_Acoes", "Ativo", "Disponibilidades",
+                                    "Ativo_Circulante", "Div_Bruta",
+                                    "Div_Liquida", "Patrim_Liq"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- RESULTADOS -->
+                    @if (TemCampos(
+                        "Receita_Liquida_Ultimos_12_Meses",
+                        "EBIT_Ultimos_12_Meses",
+                        "Lucro_Liquido_Ultimos_12_Meses",
+                        "Receita_Liquida_Ultimos_3_Meses",
+                        "EBIT_Ultimos_3_Meses",
+                        "Lucro_Liquido_Ultimos_3_Meses"))
+                    {
+                        <div class="mb-4">
+                            <hr />
+                            <h3 class="mb-3">Resultados financeiros</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos(
+                                    "Receita_Liquida_Ultimos_12_Meses",
+                                    "EBIT_Ultimos_12_Meses",
+                                    "Lucro_Liquido_Ultimos_12_Meses",
+                                    "Receita_Liquida_Ultimos_3_Meses",
+                                    "EBIT_Ultimos_3_Meses",
+                                    "Lucro_Liquido_Ultimos_3_Meses"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- ATUALIZAÇÃO -->
+                    @if (TemCampos("Ult_balanco_processado"))
+                    {
+                        <div>
+                            <hr />
+                            <h3 class="mb-3">Atualização</h3>
+
+                            <div class="row g-3">
+                                @foreach (var campo in ObterCampos("Ult_balanco_processado"))
+                                {
+                                    <div class="col-6 col-md-4 col-lg-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <div class="text-muted small mb-1">
+                                                @FormatarNome(campo.Nome)
+                                            </div>
+                                            <div class="h3 mb-0">
+                                                @FormatarValor(campo.Nome, campo.Valor)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
 
                 </CardBody>
-
             </Card>
         }
 
@@ -437,7 +660,6 @@
     public string Codigo { get; set; } = "";
 
     private string Nome = "";
-    private string Setor = "";
 
     private bool carregando = true;
     private bool atualizando;
@@ -787,10 +1009,6 @@
             ? nome.GetString() ?? Codigo
             : Codigo;
 
-        Setor = raiz.TryGetProperty("Setor", out var setor)
-            ? setor.GetString() ?? ""
-            : "";
-
         // --------------------------------------
         // ANÁLISE BARSI
         // --------------------------------------
@@ -970,18 +1188,64 @@
         var nomes = new Dictionary<string, string>(
             StringComparer.OrdinalIgnoreCase)
         {
-            ["pl"] = "P/L",
-            ["pvp"] = "P/VP",
-            ["roe"] = "ROE",
-            ["roa"] = "ROA",
-            ["lpa"] = "LPA",
-            ["vpa"] = "VPA",
-            ["dy"] = "Dividend Yield",
-            ["dividend_yield"] = "Dividend Yield",
-            ["margem_liquida"] = "Margem Líquida",
-            ["margem_bruta"] = "Margem Bruta",
-            ["margem_ebit"] = "Margem EBIT",
-            ["divida_liquida_ebitda"] = "Dívida Líquida / EBITDA"
+            // Identificação
+            ["Tipo"] = "Tipo de Ação",
+            ["Setor"] = "Setor",
+            ["Subsetor"] = "Subsetor",
+
+            // Valuation
+            ["P_L"] = "P/L",
+            ["P_VP"] = "P/VP",
+            ["P_EBIT"] = "P/EBIT",
+            ["PSR"] = "PSR",
+            ["P_Ativos"] = "P/Ativos",
+            ["P_Cap_Giro"] = "P/Capital de Giro",
+            ["P_Ativ_Circ_Liq"] = "P/Ativo Circulante Líquido",
+
+            // Indicadores
+            ["Div_Yield"] = "Dividend Yield",
+            ["EV_EBITDA"] = "EV/EBITDA",
+            ["EV_EBIT"] = "EV/EBIT",
+            ["LPA"] = "Lucro por Ação (LPA)",
+            ["VPA"] = "Valor Patrimonial por Ação (VPA)",
+
+            // Crescimento e margens
+            ["Cres_Rec_5a"] = "Crescimento da Receita (5 anos)",
+            ["Marg_Bruta"] = "Margem Bruta",
+            ["Marg_EBIT"] = "Margem EBIT",
+            ["Marg_Liquida"] = "Margem Líquida",
+
+            // Rentabilidade
+            ["EBIT_Ativo"] = "EBIT / Ativo",
+            ["ROIC"] = "ROIC",
+            ["ROE"] = "ROE",
+            ["Giro_Ativos"] = "Giro dos Ativos",
+
+            // Liquidez e endividamento
+            ["Liquidez_Corr"] = "Liquidez Corrente",
+            ["Div_Liq_Patrim"] = "Dívida Líquida / Patrimônio",
+
+            // Balanço
+            ["Valor_de_mercado"] = "Valor de Mercado",
+            ["Valor_da_firma"] = "Valor da Firma",
+            ["Nro_Acoes"] = "Número de Ações",
+            ["Ativo"] = "Ativo Total",
+            ["Disponibilidades"] = "Disponibilidades",
+            ["Ativo_Circulante"] = "Ativo Circulante",
+            ["Div_Bruta"] = "Dívida Bruta",
+            ["Div_Liquida"] = "Dívida Líquida",
+            ["Patrim_Liq"] = "Patrimônio Líquido",
+
+            // Resultados
+            ["Receita_Liquida_Ultimos_12_Meses"] = "Receita Líquida (12 meses)",
+            ["EBIT_Ultimos_12_Meses"] = "EBIT (12 meses)",
+            ["Lucro_Liquido_Ultimos_12_Meses"] = "Lucro Líquido (12 meses)",
+            ["Receita_Liquida_Ultimos_3_Meses"] = "Receita Líquida (3 meses)",
+            ["EBIT_Ultimos_3_Meses"] = "EBIT (3 meses)",
+            ["Lucro_Liquido_Ultimos_3_Meses"] = "Lucro Líquido (3 meses)",
+
+            // Atualização
+            ["Ult_balanco_processado"] = "Último Balanço Processado"
         };
 
         if (nomes.TryGetValue(nome, out var descricao))
@@ -1043,6 +1307,42 @@
     private void Voltar()
     {
         Navigation.NavigateTo("/RecomendacaoUnificada");
+    }
+
+    // ==========================================
+    // CAMPOS DOS FUNDAMENTOS
+    // ==========================================
+
+    private List<(string Nome, JsonElement Valor)> ObterCampos(
+        params string[] nomes)
+    {
+        var resultado = new List<(string Nome, JsonElement Valor)>();
+
+        if (!Fundamentos.HasValue)
+            return resultado;
+
+        foreach (var nome in nomes)
+        {
+            if (Fundamentos.Value.TryGetProperty(nome, out var valor))
+            {
+                if (valor.ValueKind == JsonValueKind.Null ||
+                    valor.ValueKind == JsonValueKind.Undefined)
+                    continue;
+
+                if (valor.ValueKind == JsonValueKind.String &&
+                    string.IsNullOrWhiteSpace(valor.GetString()))
+                    continue;
+
+                resultado.Add((nome, valor));
+            }
+        }
+
+        return resultado;
+    }
+
+    private bool TemCampos(params string[] nomes)
+    {
+        return ObterCampos(nomes).Count > 0;
     }
 
 }

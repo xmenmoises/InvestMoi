@@ -1,0 +1,61 @@
+{
+  "Codigo": "CMIN3",
+  "Nome": "CSNMINERACAO ON N2",
+  "Analise_Barsi": {
+    "Dividendos": {
+      "2026": 0.219,
+      "2025": 0.445,
+      "2024": 0.739,
+      "2023": 0.777,
+      "2022": 0.921,
+      "2021": 0.468
+    }
+  },
+  "Analise_Graham": {
+    "LPA": 0.43,
+    "VPA": 1.35
+  },
+  "Fundamentos": {
+    "Tipo": "ON N2",
+    "Setor": "Minera\u00E7\u00E3o",
+    "Subsetor": "Minerais Met\u00E1licos",
+    "P_L": "12,25",
+    "P_VP": "3,89",
+    "P_EBIT": "5,91",
+    "PSR": "1,64",
+    "P_Ativos": "0,84",
+    "P_Cap_Giro": "16,94",
+    "P_Ativ_Circ_Liq": "-1,90",
+    "Div_Yield": "17,5%",
+    "EV_EBITDA": "4,78",
+    "EV_EBIT": "6,13",
+    "LPA": "0,43",
+    "VPA": "1,35",
+    "Cres_Rec_5a": "8,2%",
+    "Marg_Bruta": "46,1%",
+    "Marg_EBIT": "27,8%",
+    "Marg_Liquida": "13,4%",
+    "EBIT_Ativo": "14,3%",
+    "ROIC": "20,3%",
+    "ROE": "31,8%",
+    "Giro_Ativos": "0,51",
+    "Liquidez_Corr": "1,17",
+    "Div_Liq_Patrim": "0,14",
+    "Valor_de_mercado": "28.572.600.000",
+    "Valor_da_firma": "29.597.700.000",
+    "Nro_Acoes": "5.432.040.000",
+    "Ativo": "33.847.400.000",
+    "Disponibilidades": "7.939.400.000",
+    "Ativo_Circulante": "11.437.300.000",
+    "Div_Bruta": "8.964.510.000",
+    "Div_Liquida": "1.025.100.000",
+    "Patrim_Liq": "7.339.410.000",
+    "Receita_Liquida_Ultimos_12_Meses": "17.392.900.000",
+    "EBIT_Ultimos_12_Meses": "4.831.950.000",
+    "Lucro_Liquido_Ultimos_12_Meses": "2.333.060.000",
+    "Receita_Liquida_Ultimos_3_Meses": "3.613.200.000",
+    "EBIT_Ultimos_3_Meses": "659.480.000",
+    "Lucro_Liquido_Ultimos_3_Meses": "219.646.000",
+    "Ult_balanco_processado": "30/06/2026"
+  }
+}

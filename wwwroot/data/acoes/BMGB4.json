@@ -1,0 +1,63 @@
+{
+  "Codigo": "BMGB4",
+  "Nome": "BANCO BMG PN N1",
+  "Analise_Barsi": {
+    "Dividendos": {
+      "2026": 0.200,
+      "2025": 0.547,
+      "2024": 0.370,
+      "2023": 0.376,
+      "2022": 0.365,
+      "2021": 0.316,
+      "2020": 0.179,
+      "2019": 0.250
+    }
+  },
+  "Analise_Graham": {
+    "LPA": 0.95,
+    "VPA": 6.76
+  },
+  "Fundamentos": {
+    "Tipo": "PN N1",
+    "Setor": "Intermedi\u00E1rios Financeiros",
+    "Subsetor": "Bancos",
+    "P_L": "5,48",
+    "P_VP": "0,77",
+    "P_EBIT": "-",
+    "PSR": "-",
+    "P_Ativos": "-",
+    "P_Cap_Giro": "-",
+    "P_Ativ_Circ_Liq": "-",
+    "Div_Yield": "9,8%",
+    "EV_EBITDA": "-",
+    "EV_EBIT": "-",
+    "LPA": "0,95",
+    "VPA": "6,76",
+    "Cres_Rec_5a": "8,7%",
+    "Marg_Bruta": "-",
+    "Marg_EBIT": "-",
+    "Marg_Liquida": "0,0%",
+    "EBIT_Ativo": "0,0%",
+    "ROIC": "-",
+    "ROE": "14,1%",
+    "Giro_Ativos": "-",
+    "Liquidez_Corr": "-",
+    "Div_Liq_Patrim": "-",
+    "Valor_de_mercado": "3.390.530.000",
+    "Valor_da_firma": "-",
+    "Nro_Acoes": "648.284.000",
+    "Ativo": "45.390.300.000",
+    "Disponibilidades": "",
+    "Ativo_Circulante": "",
+    "Div_Bruta": "",
+    "Div_Liquida": "",
+    "Patrim_Liq": "4.384.430.000",
+    "Receita_Liquida_Ultimos_12_Meses": "",
+    "EBIT_Ultimos_12_Meses": "",
+    "Lucro_Liquido_Ultimos_12_Meses": "618.211.000",
+    "Receita_Liquida_Ultimos_3_Meses": "",
+    "EBIT_Ultimos_3_Meses": "",
+    "Lucro_Liquido_Ultimos_3_Meses": "141.364.000",
+    "Ult_balanco_processado": "30/09/2026"
+  }
+}
