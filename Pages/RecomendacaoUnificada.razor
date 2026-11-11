@@ -559,8 +559,11 @@
         string barsi = CalcularViesBarsi(acao);
         string graham = CalcularViesGraham(acao);
 
+        if (barsi != "AGUARDANDO" && graham == "AGUARDANDO")
+            return "Empresa com prejuízo";
+
         if (barsi == "AGUARDANDO" || graham == "AGUARDANDO")
-            return "AGUARDANDO";
+            return "AGUARDANDO";        
 
         double pontuacaoBarsi = PontuarVies(barsi);
         double pontuacaoGraham = PontuarVies(graham);
