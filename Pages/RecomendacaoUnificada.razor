@@ -1,7 +1,781 @@
 ﻿@page "/RecomendacaoUnificada"
 
-<h3>RecomendacaoUnificada</h3>
+@using System.Text.Json.Serialization
+@using System.Net.Http.Json
+@using System.Globalization
+@using TabBlazor
+
+@inject HttpClient Http
+
+<PageTitle>Recomendações Gerais</PageTitle>
+
+<div class="container-xl py-4">
+
+    <!-- CABEÇALHO -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Recomendações Gerais</h1>
+            <div class="text-muted">
+                Consolidação das análises Barsi e Graham.
+            </div>
+        </div>
+
+        <button class="btn btn-primary"
+                @onclick="AtualizarCotacoes"
+                disabled="@carregando">
+
+            @(carregando ? "Atualizando..." : "Atualizar")
+        </button>
+    </div>
+
+    <!-- STATUS -->
+    @if (carregando)
+    {
+        <div class="alert alert-info">
+            Consultando cotações na brapi.dev...
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(erro))
+    {
+        <div class="alert alert-danger">
+            @erro
+        </div>
+    }
+
+    <!-- TABELA -->
+    <Card>
+
+        <CardHeader>
+            <CardTitle>Consolidado de recomendações</CardTitle>
+        </CardHeader>
+
+        <CardBody>
+
+            <div class="table-responsive acoes-responsive">
+
+                <table class="table table-vcenter table-hover acoes-table">
+
+                    <thead>
+                        <tr>
+                            <th>Ação</th>
+                            <th class="text-center">Viés Barsi</th>
+                            <th class="text-center">Viés Graham</th>
+                            <th class="text-center">Viés Geral</th>
+                            <th class="text-end">PM</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var acao in Acoes.OrderBy(x => x.PM))
+                        {
+                            var viesBarsi = CalcularViesBarsi(acao);
+                            var viesGraham = CalcularViesGraham(acao);
+                            var viesGeral = CalcularViesGeral(acao);
+
+                            <tr>
+
+                                <!-- AÇÃO -->
+                                <td>
+                                    <strong>@acao.Codigo</strong>
+                                    <div class="text-muted small">
+                                        @acao.Nome
+                                    </div>
+                                </td>
+
+                                <!-- BARSI -->
+                                <td class="text-center">
+                                    <span class="badge @ClasseBadge(viesBarsi)">
+                                        @viesBarsi
+                                    </span>
+                                </td>
+
+                                <!-- GRAHAM -->
+                                <td class="text-center">
+                                    <span class="badge @ClasseBadge(viesGraham)">
+                                        @viesGraham
+                                    </span>
+                                </td>
+
+                                <!-- GERAL -->
+                                <td class="text-center">
+                                    <span class="badge @ClasseBadge(viesGeral)">
+                                        @viesGeral
+                                    </span>
+                                </td>
+
+                                <!-- PREÇO DE MERCADO -->
+                                <td class="text-end">
+                                    @if (acao.TemCotacao)
+                                    {
+                                        <strong>@FormatarMoeda(acao.PM)</strong>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">--</span>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <!-- LEGENDA -->
+    <Card class="mt-4">
+
+        <CardBody>
+
+            <div class="d-flex flex-wrap gap-4">
+
+                <div>
+                    <span class="badge bg-info text-dark">PM</span>
+                    <span class="text-muted small ms-1">
+                        Preço de Mercado
+                    </span>
+                </div>
+
+                <div>
+                    <span class="badge bg-success text-dark">COMPRAR FORTE</span>
+                    <span class="text-muted small ms-1">
+                        Recomendação muito positiva
+                    </span>
+                </div>
+
+                <div>
+                    <span class="badge bg-comprar">COMPRAR</span>
+                    <span class="text-muted small ms-1">
+                        Recomendação positiva
+                    </span>
+                </div>
+
+                <div>
+                    <span class="badge bg-orange text-dark">COMPRAR FRACO</span>
+                    <span class="text-muted small ms-1">
+                        Recomendação moderada
+                    </span>
+                </div>
+
+                <div>
+                    <span class="badge bg-danger text-dark">MANTER</span>
+                    <span class="text-muted small ms-1">
+                        Sem indicação de compra
+                    </span>
+                </div>
+
+            </div>
+
+        </CardBody>
+
+    </Card>
+
+    <div class="text-muted small mt-3">
+
+        Cotação atualizada pela brapi.dev.
+
+        @if (ultimaAtualizacao != null)
+        {
+            <span>
+                Última atualização:
+                @ultimaAtualizacao.Value.ToString("dd/MM/yyyy HH:mm:ss").
+            </span>
+        }
+
+    </div>
+
+</div>
+
+<style>
+
+    .text-orange {
+        color: #f59f00 !important;
+    }
+
+    .bg-orange {
+        background-color: #f59f00 !important;
+    }
+
+    .table th {
+        white-space: nowrap;
+    }
+
+    .table td {
+        white-space: nowrap;
+    }
+
+    .badge {
+        color: #000 !important;
+        font-weight: 600;
+    }
+
+    .bg-comprar {
+        background-color: #ffeb00 !important;
+        color: #000 !important;
+    }
+
+    /* TABELA MOBILE */
+    @@media (max-width: 767.98px) {
+
+        .acoes-responsive {
+            overflow-x: hidden !important;
+            width: 100%;
+        }
+
+        .acoes-table {
+            width: 100% !important;
+            min-width: 0 !important;
+            table-layout: fixed;
+            margin-bottom: 0;
+        }
+            /* Largura das colunas */
+            .acoes-table th:nth-child(1),
+            .acoes-table td:nth-child(1) {
+                width: 18%;
+            }
+
+            .acoes-table th:nth-child(2),
+            .acoes-table td:nth-child(2) {
+                width: 23%;
+            }
+
+            .acoes-table th:nth-child(3),
+            .acoes-table td:nth-child(3) {
+                width: 23%;
+            }
+
+            .acoes-table th:nth-child(4),
+            .acoes-table td:nth-child(4) {
+                width: 23%;
+            }
+
+            .acoes-table th:nth-child(5),
+            .acoes-table td:nth-child(5) {
+                width: 13%;
+            }
+            /* Espaçamento */
+            .acoes-table th,
+            .acoes-table td {
+                padding: 0.65rem 0.15rem !important;
+                font-size: 10px;
+            }
+
+                .acoes-table td:nth-child(1) {
+                    white-space: normal;
+                    overflow-wrap: anywhere;
+                }
+
+            .acoes-table .badge {
+                font-size: 9px;
+                padding: 0.3rem 0.2rem;
+                white-space: normal;
+                display: inline-block;
+            }
+
+            .acoes-table th:nth-child(5),
+            .acoes-table td:nth-child(5) {
+                font-size: 9px;
+            }
+    }
+
+</style>
 
 @code {
+
+    private static readonly CultureInfo Cultura =
+        CultureInfo.GetCultureInfo("pt-BR");
+
+    // ==========================================
+    // PARÂMETROS
+    // ==========================================
+
+    private class ParametrosConfig
+    {
+        [JsonPropertyName("Analise_Barsi")]
+        public AnaliseBarsiConfig AnaliseBarsi { get; set; } = new();
+
+        [JsonPropertyName("Analise_Graham")]
+        public AnaliseGrahamConfig AnaliseGraham { get; set; } = new();
+
+        [JsonPropertyName("Vies")]
+        public Dictionary<string, double> Vies { get; set; } = new();
+    }
+
+    private class AnaliseBarsiConfig
+    {
+        [JsonPropertyName("DY_Padrao")]
+        public double DY_Padrao { get; set; }
+    }
+
+    private class AnaliseGrahamConfig
+    {
+        [JsonPropertyName("Fator_Valor_Intrinseco")]
+        public double FatorValorIntrinseco { get; set; }
+
+        [JsonPropertyName("Margem_Seguranca")]
+        public double MargemSeguranca { get; set; }
+    }
+
+    private ParametrosConfig Parametros = new();
+
+    private async Task CarregarParametros()
+    {
+        var parametros =
+            await Http.GetFromJsonAsync<ParametrosConfig>(
+                "data/configuracoes/parametros.json"
+            );
+
+        if (parametros == null)
+            throw new Exception("Não foi possível carregar parametros.json.");
+
+        string[] chaves =
+        {
+            "COMPRAR FORTE",
+            "COMPRAR",
+            "COMPRAR FRACO",
+            "MANTER"
+        };
+
+        foreach (var chave in chaves)
+        {
+            if (!parametros.Vies.ContainsKey(chave))
+                throw new Exception($"Parâmetro de viés ausente: {chave}");
+        }
+
+        if (parametros.AnaliseBarsi.DY_Padrao <= 0)
+            throw new Exception("DY padrão inválido.");
+
+        if (parametros.AnaliseGraham.FatorValorIntrinseco <= 0)
+            throw new Exception("Fator de valor intrínseco inválido.");
+
+        if (parametros.AnaliseGraham.MargemSeguranca < 0 ||
+            parametros.AnaliseGraham.MargemSeguranca >= 100)
+            throw new Exception("Margem de segurança inválida.");
+
+        Parametros = parametros;
+    }
+
+    // ==========================================
+    // MODELO DOS ARQUIVOS JSON
+    // ==========================================
+
+    private class Acao
+    {
+        [JsonPropertyName("Codigo")]
+        public string Codigo { get; set; } = "";
+
+        [JsonPropertyName("Nome")]
+        public string Nome { get; set; } = "";
+
+        [JsonPropertyName("Analise_Barsi")]
+        public DadosBarsi AnaliseBarsi { get; set; } = new();
+
+        [JsonPropertyName("Analise_Graham")]
+        public DadosGraham AnaliseGraham { get; set; } = new();
+
+        // Valores calculados em tempo de execução
+
+        public double PM { get; set; }
+
+        public bool TemCotacao { get; set; }
+
+
+        public double Media =>
+            AnaliseBarsi.Dividendos != null &&
+            AnaliseBarsi.Dividendos.Count > 0
+                ? AnaliseBarsi.Dividendos.Values.Average()
+                : 0;
+    }
+
+    private double CalcularPTBarsi(Acao acao)
+    {
+        return acao.Media > 0
+            ? acao.Media / (Parametros.AnaliseBarsi.DY_Padrao / 100)
+            : 0;
+    }
+
+    private double CalcularRelacaoBarsi(Acao acao)
+    {
+        return acao.TemCotacao && acao.PM > 0
+            ? CalcularPTBarsi(acao) / acao.PM
+            : 0;
+    }
+
+    private double CalcularPJ(Acao acao)
+    {
+        if (acao.AnaliseGraham.LPA <= 0 ||
+            acao.AnaliseGraham.VPA <= 0)
+            return 0;
+
+        return Math.Sqrt(
+            Parametros.AnaliseGraham.FatorValorIntrinseco *
+            acao.AnaliseGraham.LPA *
+            acao.AnaliseGraham.VPA
+        );
+    }
+
+    private double CalcularPTGraham(Acao acao)
+    {
+        return CalcularPJ(acao) *
+            (1 - Parametros.AnaliseGraham.MargemSeguranca / 100);
+    }
+
+    private double CalcularRelacaoGraham(Acao acao)
+    {
+        return acao.TemCotacao && acao.PM > 0
+            ? CalcularPTGraham(acao) / acao.PM
+            : 0;
+    }
+
+    private class DadosBarsi
+    {
+        [JsonPropertyName("Dividendos")]
+        public Dictionary<string, double> Dividendos { get; set; } = new();
+    }
+
+    private class DadosGraham
+    {
+        [JsonPropertyName("LPA")]
+        public double LPA { get; set; }
+
+        [JsonPropertyName("VPA")]
+        public double VPA { get; set; }
+    }
+
+    // ==========================================
+    // LISTA DINÂMICA DE AÇÕES
+    // ==========================================
+
+    private List<Acao> Acoes = new();
+
+    private async Task CarregarAcoes()
+    {
+        Acoes.Clear();
+
+        var codigos = await Http.GetFromJsonAsync<List<string>>(
+            "data/acoes/index.json"
+        );
+
+        if (codigos == null || codigos.Count == 0)
+            throw new Exception("Nenhuma ação encontrada em index.json.");
+
+        var codigosUnicos = codigos
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var codigo in codigosUnicos)
+        {
+            try
+            {
+                var acao = await Http.GetFromJsonAsync<Acao>(
+                    $"data/acoes/{codigo}.json"
+                );
+
+                if (acao == null)
+                    continue;
+
+                if (string.IsNullOrWhiteSpace(acao.Codigo))
+                    continue;
+
+                Acoes.Add(acao);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"Erro ao carregar {codigo}.json: {ex.Message}"
+                );
+            }
+        }
+
+        if (Acoes.Count == 0)
+            throw new Exception("Não foi possível carregar nenhuma ação.");
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO BARSI
+    // ==========================================
+
+    private string CalcularViesBarsi(Acao acao)
+    {
+        if (!acao.TemCotacao || acao.PM <= 0 || acao.Media <= 0)
+            return "AGUARDANDO";
+
+        return ClassificarRelacao(CalcularRelacaoBarsi(acao));
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO GRAHAM
+    // ==========================================
+
+    private string CalcularViesGraham(Acao acao)
+    {
+        if (!acao.TemCotacao ||
+            acao.PM <= 0 ||
+            acao.AnaliseGraham.LPA <= 0 ||
+            acao.AnaliseGraham.VPA <= 0)
+            return "AGUARDANDO";
+
+        return ClassificarRelacao(CalcularRelacaoGraham(acao));
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO INDIVIDUAL
+    // ==========================================
+
+    private string ClassificarRelacao(double relacao)
+    {
+        double comprarForte = Parametros.Vies["COMPRAR FORTE"];
+        double comprar = Parametros.Vies["COMPRAR"];
+        double comprarFraco = Parametros.Vies["COMPRAR FRACO"];
+
+        if (relacao >= comprarForte)
+            return "COMPRAR FORTE";
+
+        if (relacao >= comprar)
+            return "COMPRAR";
+
+        if (relacao > comprarFraco)
+            return "COMPRAR FRACO";
+
+        return "MANTER";
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO GERAL
+    // ==========================================
+
+    private string CalcularViesGeral(Acao acao)
+    {
+        string barsi = CalcularViesBarsi(acao);
+        string graham = CalcularViesGraham(acao);
+
+        if (barsi == "AGUARDANDO" || graham == "AGUARDANDO")
+            return "AGUARDANDO";
+
+        double pontuacaoBarsi = PontuarVies(barsi);
+        double pontuacaoGraham = PontuarVies(graham);
+
+        double media = (pontuacaoBarsi + pontuacaoGraham) / 2;
+
+        if (media >= 2.5)
+            return "COMPRAR FORTE";
+
+        if (media >= 1.75)
+            return "COMPRAR";
+
+        if (media >= 1.25)
+            return "COMPRAR FRACO";
+
+        return "MANTER";
+    }
+
+    private double PontuarVies(string vies)
+    {
+        return vies switch
+        {
+            "COMPRAR FORTE" => 3,
+            "COMPRAR" => 2,
+            "COMPRAR FRACO" => 1,
+            "MANTER" => 0,
+            _ => 0
+        };
+    }
+
+    // ==========================================
+    // CLASSIFICAÇÃO VISUAL
+    // ==========================================
+
+    private string ClasseBadge(string vies)
+    {
+        return vies switch
+        {
+            "COMPRAR FORTE" => "bg-success text-dark",
+            "COMPRAR" => "bg-comprar",
+            "COMPRAR FRACO" => "bg-orange text-dark",
+            "MANTER" => "bg-danger text-dark",
+            _ => "bg-secondary text-dark"
+        };
+    }
+
+    // ==========================================
+    // FORMATAÇÃO
+    // ==========================================
+
+    private string FormatarMoeda(double valor)
+    {
+        return valor.ToString("C2", Cultura);
+    }
+
+    // ==========================================
+    // CONFIGURAÇÕES DE COMPRA
+    // ==========================================
+
+    private const int QuantidadeCompra = 10;
+
+    // ==========================================
+    // INICIALIZAÇÃO
+    // ==========================================
+
+    private bool carregando;
+    private string? erro;
+    private DateTime? ultimaAtualizacao;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            carregando = true;
+
+            // 1. Carrega parâmetros
+            await CarregarParametros();
+
+            // 2. Carrega todas as ações dos JSONs
+            await CarregarAcoes();
+
+            // 3. Atualiza cotações
+            await ConsultarCotacoes();
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao inicializar recomendações: {ex.Message}";
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    // ==========================================
+    // ATUALIZAÇÃO MANUAL
+    // ==========================================
+
+    private async Task AtualizarCotacoes()
+    {
+        if (carregando)
+            return;
+
+        try
+        {
+            carregando = true;
+            erro = null;
+
+            await CarregarParametros();
+            await CarregarAcoes();
+
+            await ConsultarCotacoes();
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao atualizar: {ex.Message}";
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    // ==========================================
+    // API BRAPI
+    // ==========================================
+
+    private async Task ConsultarCotacoes()
+    {
+        var codigosDesejados = Acoes
+            .Select(x => x.Codigo)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var codigosEncontrados = new HashSet<string>(
+            StringComparer.OrdinalIgnoreCase
+        );
+
+        int pagina = 1;
+        int totalPaginas = 1;
+
+        while (pagina <= totalPaginas)
+        {
+            var url =
+                $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
+
+            var response =
+                await Http.GetFromJsonAsync<ApiResponse>(url);
+
+            if (response?.Stocks == null)
+                break;
+
+            totalPaginas = response.TotalPages;
+
+            foreach (var stock in response.Stocks)
+            {
+                if (string.IsNullOrWhiteSpace(stock.StockCode))
+                    continue;
+
+                if (!codigosDesejados.Contains(stock.StockCode))
+                    continue;
+
+                var acao = Acoes.FirstOrDefault(
+                    x => string.Equals(
+                        x.Codigo,
+                        stock.StockCode,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                );
+
+                if (acao == null || !stock.Close.HasValue)
+                    continue;
+
+                acao.PM = stock.Close.Value;
+                acao.TemCotacao = true;
+
+                codigosEncontrados.Add(stock.StockCode);
+            }
+
+            if (codigosEncontrados.Count == codigosDesejados.Count)
+                break;
+
+            pagina++;
+        }
+
+        var naoEncontradas = codigosDesejados
+            .Except(codigosEncontrados)
+            .ToList();
+
+        if (naoEncontradas.Any())
+        {
+            erro = "Não foi possível atualizar: " +
+                   string.Join(", ", naoEncontradas);
+        }
+
+        ultimaAtualizacao = DateTime.Now;
+    }
+
+    // ==========================================
+    // MODELOS DA API
+    // ==========================================
+
+    public class ApiResponse
+    {
+        [JsonPropertyName("stocks")]
+        public List<Stock>? Stocks { get; set; }
+
+        [JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+    }
+
+    public class Stock
+    {
+        [JsonPropertyName("stock")]
+        public string? StockCode { get; set; }
+
+        [JsonPropertyName("close")]
+        public double? Close { get; set; }
+    }
 
 }
