@@ -24,5 +24,15 @@
   "Analise_Graham": {
     "LPA": 0.08,
     "VPA": 1.58
+  },
+  "Setor": "Materiais Básicos",
+  "Fundamentos": {
+    "pl": 8.5,
+    "pvp": 1.2,
+    "roe": 15.3,
+    "margem_liquida": 12.4,
+    "dividend_yield": 6.2,
+    "lpa": 0.08,
+    "vpa": 1.58
   }
 }

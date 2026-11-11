@@ -1,0 +1,1049 @@
+﻿@page "/Acao/{Codigo}"
+
+@using System.Text.Json
+@using System.Globalization
+@using System.Net.Http.Json
+@using System.Text.Json.Serialization
+@using TabBlazor
+
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<PageTitle>@Nome - @Codigo | InvestMoi</PageTitle>
+
+<div class="container-xl py-4">
+
+    @if (carregando)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+            <div class="text-muted mt-3">Carregando informações...</div>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(erro))
+    {
+        <div class="alert alert-danger">@erro</div>
+        <button class="btn btn-outline-secondary" @onclick="Voltar">
+            Voltar
+        </button>
+    }
+    else
+    {
+        <!-- CABEÇALHO -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
+            <!-- IDENTIFICAÇÃO -->
+            <div>
+                <button class="btn btn-sm btn-outline-secondary mb-3"
+                        @onclick="Voltar">
+                    <i class="ti ti-arrow-left"></i> Voltar
+                </button>
+
+                <h1 class="mb-1">@Codigo</h1>
+
+                <div class="text-muted">@Nome</div>
+
+            </div>
+
+            <!-- COTAÇÃO E ATUALIZAÇÃO -->
+            <div class="d-flex flex-column align-items-end gap-2">
+
+                @if (PrecoAtual > 0)
+                {
+                    <div class="card shadow-sm">
+                        <div class="card-body py-3 px-4">
+
+                            <div class="subheader">
+                                Cotação atual
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <span class="h1 mb-0">
+                                    @FormatarMoeda(PrecoAtual)
+                                </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+                <button class="btn btn-primary order-first"
+                        @onclick="Atualizar"
+                        disabled="@atualizando">
+                    @(atualizando ? "Atualizando..." : "Atualizar")
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- FUNDAMENTOS DINÂMICOS -->
+        @if (Fundamentos.HasValue &&
+             Fundamentos.Value.ValueKind == JsonValueKind.Object &&
+             Fundamentos.Value.EnumerateObject().Any())
+        {
+            <Card class="mb-4">
+
+                <CardHeader>
+                    <CardTitle>Indicadores Fundamentalistas e Informações</CardTitle>
+                </CardHeader>
+
+                <CardBody>
+
+                    <div class="row g-3">
+
+                        @foreach (var campo in Fundamentos.Value.EnumerateObject())
+                        {
+                            @if (campo.Value.ValueKind != JsonValueKind.Object &&
+                                 campo.Value.ValueKind != JsonValueKind.Array)
+                            {
+                                <div class="col-6 col-md-4 col-lg-3">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <div class="text-muted small mb-1">
+                                            @FormatarNome(campo.Name)
+                                        </div>
+
+                                        <div class="h3 mb-0">
+                                            @FormatarValor(campo.Name, campo.Value)
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+                </CardBody>
+
+            </Card>
+        }
+
+        <!-- ANÁLISES -->
+        <h2 class="mb-3">Análises de investimento</h2>
+
+        <div class="row row-cards mb-4">
+
+            <!-- BARSI -->
+            <div class="col-lg-12">
+
+                <Card>
+
+                    <CardHeader>
+                        <CardTitle>Análise Barsi</CardTitle>
+                    </CardHeader>
+
+                    <CardBody>
+
+                        <div class="row g-3">
+
+                            <div class="col-6">
+                                <div class="subheader">Média dos dividendos</div>
+                                <div class="h2">@FormatarMoeda(MediaDividendos)</div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">DY desejado</div>
+                                <div class="h2">@DYPadrao.ToString("N2", Cultura)%</div>
+                            </div>
+
+                            <div class="col-12">
+                                <hr />
+                                <div class="subheader">Preço-teto Barsi</div>
+                                <div class="h1 text-success">
+                                    @FormatarMoeda(PrecoTetoBarsi)
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">PT / PM</div>
+                                <div class="h3">@RelacaoBarsi.ToString("N2", Cultura)</div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">Diferença</div>
+                                <div class="h3 @ClasseDiferencaBarsi">
+                                    @DiferencaBarsi.ToString("+0.00;-0.00;0.00")%
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="subheader mb-2">Classificação</div>
+
+                        <span class="badge @ClasseBadge(ViesBarsi)">
+                            @ViesBarsi
+                        </span>
+
+                        
+                        @if (Dividendos.Count > 0)
+                        {
+                            <hr />
+
+                            <div class="subheader mb-3">
+                                Histórico de dividendos por ação
+                            </div>
+
+                            <div class="grafico-dividendos-scroll">
+
+                                <div class="grafico-dividendos">
+
+                                    @foreach (var item in Dividendos.OrderBy(x => x.Key))
+                                    {
+                                        <div class="dividendo-item">
+
+                                            <div class="dividendo-valor">
+                                                @item.Value.ToString("F3", Cultura)
+                                            </div>
+
+                                            <div class="dividendo-barra-area">
+
+                                                <div class="barra-dividendo"
+                                                     title="@($"{item.Key}: {item.Value.ToString("F3", Cultura)}")"
+                                                     style="height:@AlturaDividendo(item.Value)">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="dividendo-ano">
+                                                @item.Key
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            <div class="text-muted small mt-2">
+                                Valores em reais por ação.
+                            </div>
+                        }
+
+
+                    </CardBody>
+
+                </Card>
+
+            </div>
+
+            <!-- GRAHAM -->
+            <div class="col-lg-12">
+
+                <Card>
+
+                    <CardHeader>
+                        <CardTitle>Análise Graham</CardTitle>
+                    </CardHeader>
+
+                    <CardBody>
+
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <div class="subheader">Valor intrínseco</div>
+                                <div class="h1">
+                                    @FormatarMoeda(ValorIntrinseco)
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">Margem de segurança</div>
+                                <div class="h3">
+                                    @MargemSeguranca.ToString("N2", Cultura)%
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">Preço-teto</div>
+                                <div class="h3 text-success">
+                                    @FormatarMoeda(PrecoTetoGraham)
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">PT / PM</div>
+                                <div class="h3">@RelacaoGraham.ToString("N2", Cultura)</div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="subheader">Diferença</div>
+                                <div class="h3 @ClasseDiferencaGraham">
+                                    @DiferencaGraham.ToString("+0.00;-0.00;0.00")%
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr />
+
+                        <div class="subheader mb-2">Classificação</div>
+
+                        <span class="badge @ClasseBadge(ViesGraham)">
+                            @ViesGraham
+                        </span>
+
+                    </CardBody>
+
+                </Card>
+
+            </div>
+
+        </div>
+
+                    
+
+        <div class="text-muted small mt-3">
+            Cotações e histórico fornecidos pela brapi.dev.
+
+            @if (ultimaAtualizacao.HasValue)
+            {
+                <span>
+                    Última atualização:
+                    @ultimaAtualizacao.Value.ToString("dd/MM/yyyy HH:mm:ss").
+                </span>
+            }
+        </div>
+    }
+
+</div>
+
+<style>
+
+    .grafico-precos {
+        width: 100%;
+        height: 260px;
+    }
+
+    .grafico-svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+    }
+
+    .grafico-dividendos {
+        height: 160px;
+    }
+
+    .barra-dividendo-container {
+        height: 105px;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+    }
+
+    .barra-dividendo {
+        width: 70%;
+        min-height: 2px;
+        background: var(--tblr-primary);
+        border-radius: 4px 4px 0 0;
+    }
+
+    .bg-comprar {
+        background: #ffeb00 !important;
+        color: #000 !important;
+    }
+
+    .bg-orange {
+        background: #f59f00 !important;
+        color: #000 !important;
+    }
+
+    .text-orange {
+        color: #f59f00 !important;
+    }
+
+    @@media(max-width: 576px) {
+        .grafico-precos {
+            height: 190px;
+        }
+
+        .grafico-dividendos {
+            overflow-x: auto;
+            min-width: 0;
+        }
+    }
+
+    .grafico-dividendos-scroll {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+
+    .grafico-dividendos {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        min-width: 620px;
+        height: 155px;
+        border-bottom: 1px solid var(--tblr-border-color);
+    }
+
+    .dividendo-item {
+        flex: 1;
+        min-width: 28px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .dividendo-valor {
+        font-size: 10px;
+        white-space: nowrap;
+        margin-bottom: 5px;
+    }
+
+    .dividendo-barra-area {
+        height: 105px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .barra-dividendo {
+        width: 65%;
+        min-height: 3px;
+        background: var(--tblr-primary);
+        border-radius: 4px 4px 0 0;
+    }
+
+    .dividendo-ano {
+        font-size: 10px;
+        margin-top: 7px;
+        color: var(--tblr-secondary-color);
+    }
+
+</style>
+
+
+@code {
+
+    private static readonly CultureInfo Cultura =
+        CultureInfo.GetCultureInfo("pt-BR");
+
+    [Parameter]
+    public string Codigo { get; set; } = "";
+
+    private string Nome = "";
+    private string Setor = "";
+
+    private bool carregando = true;
+    private bool atualizando;
+    private string? erro;
+
+    private DateTime? ultimaAtualizacao;
+
+    private JsonElement? dados;
+    private JsonElement? Fundamentos;
+
+    private readonly HashSet<string> CamposIgnorados =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            "Codigo",
+            "Nome",
+            "Setor",
+            "Analise_Barsi",
+            "Analise_Graham",
+            "Fundamentos"
+        };
+
+    // ==========================================
+    // CONFIGURAÇÕES
+    // ==========================================
+
+    private class Configuracoes
+    {
+        [JsonPropertyName("Analise_Barsi")]
+        public BarsiConfig Barsi { get; set; } = new();
+
+        [JsonPropertyName("Analise_Graham")]
+        public GrahamConfig Graham { get; set; } = new();
+
+        [JsonPropertyName("Vies")]
+        public Dictionary<string, double> Vies { get; set; } = new();
+    }
+
+    private class BarsiConfig
+    {
+        [JsonPropertyName("DY_Padrao")]
+        public double DY { get; set; }
+    }
+
+    private class GrahamConfig
+    {
+        [JsonPropertyName("Fator_Valor_Intrinseco")]
+        public double Fator { get; set; }
+
+        [JsonPropertyName("Margem_Seguranca")]
+        public double Margem { get; set; }
+    }
+
+    private Configuracoes Parametros = new();
+
+    private double DYPadrao => Parametros.Barsi.DY;
+
+    private double MargemSeguranca =>
+        Parametros.Graham.Margem;
+
+    // ==========================================
+    // DADOS DAS ANÁLISES
+    // ==========================================
+
+    private Dictionary<string, double> Dividendos = new();
+
+    private double LPA;
+    private double VPA;
+
+    // Média de todos os dividendos disponíveis no JSON
+    private double MediaDividendos =>
+        Dividendos.Count > 0
+            ? Dividendos.Values.Average()
+            : 0;
+
+    // Preço-teto Barsi
+    private double PrecoTetoBarsi =>
+        DYPadrao > 0
+            ? MediaDividendos / (DYPadrao / 100)
+            : 0;
+
+    // Valor intrínseco Graham
+    private double ValorIntrinseco =>
+        LPA > 0 && VPA > 0 && Parametros.Graham.Fator > 0
+            ? Math.Sqrt(
+                Parametros.Graham.Fator * LPA * VPA
+              )
+            : 0;
+
+    // Preço-teto Graham
+    private double PrecoTetoGraham =>
+        ValorIntrinseco > 0
+            ? ValorIntrinseco * (1 - MargemSeguranca / 100)
+            : 0;
+
+    // ==========================================
+    // COTAÇÃO
+    // ==========================================
+
+    private double PrecoAtual;
+    private double Variacao;
+    private double MaximaDia;
+    private double MinimaDia;
+    private double FechamentoAnterior;
+
+    private string ClasseVariacao =>
+        Variacao >= 0 ? "text-success" : "text-danger";
+
+    // ==========================================
+    // CLASSIFICAÇÕES
+    // ==========================================
+
+    private double RelacaoBarsi =>
+        PrecoAtual > 0
+            ? PrecoTetoBarsi / PrecoAtual
+            : 0;
+
+    private double RelacaoGraham =>
+        PrecoAtual > 0
+            ? PrecoTetoGraham / PrecoAtual
+            : 0;
+
+    private double DiferencaBarsi =>
+        RelacaoBarsi > 0
+            ? (RelacaoBarsi - 1) * 100
+            : 0;
+
+    private double DiferencaGraham =>
+        RelacaoGraham > 0
+            ? (RelacaoGraham - 1) * 100
+            : 0;
+
+    private string ClasseDiferencaBarsi =>
+        DiferencaBarsi >= 0
+            ? "text-success"
+            : "text-danger";
+
+    private string ClasseDiferencaGraham =>
+        DiferencaGraham >= 0
+            ? "text-success"
+            : "text-danger";
+
+    private string ViesBarsi =>
+        Classificar(RelacaoBarsi);
+
+    private string ViesGraham =>
+        Classificar(RelacaoGraham);
+
+    private string ViesGeral
+    {
+        get
+        {
+            if (ViesBarsi == "AGUARDANDO" ||
+                ViesGraham == "AGUARDANDO")
+                return "AGUARDANDO";
+
+            double media =
+                (Pontuar(ViesBarsi) + Pontuar(ViesGraham)) / 2;
+
+            if (media >= 2.5) return "COMPRAR FORTE";
+            if (media >= 1.75) return "COMPRAR";
+            if (media >= 1.25) return "COMPRAR FRACO";
+
+            return "MANTER";
+        }
+    }
+
+    private string Classificar(double relacao)
+    {
+        // Sem cotação não existe classificação
+        if (PrecoAtual <= 0 || relacao <= 0)
+            return "AGUARDANDO";
+
+        if (Parametros.Vies.TryGetValue(
+            "COMPRAR FORTE", out var comprarForte) &&
+            relacao >= comprarForte)
+            return "COMPRAR FORTE";
+
+        if (Parametros.Vies.TryGetValue(
+            "COMPRAR", out var comprar) &&
+            relacao >= comprar)
+            return "COMPRAR";
+
+        if (Parametros.Vies.TryGetValue(
+            "COMPRAR FRACO", out var comprarFraco) &&
+            relacao > comprarFraco)
+            return "COMPRAR FRACO";
+
+        return "MANTER";
+    }
+
+    private double Pontuar(string vies) =>
+        vies switch
+        {
+            "COMPRAR FORTE" => 3,
+            "COMPRAR" => 2,
+            "COMPRAR FRACO" => 1,
+            "MANTER" => 0,
+            _ => 0
+        };
+
+    private string ClasseBadge(string vies) =>
+        vies switch
+        {
+            "COMPRAR FORTE" => "bg-success text-dark",
+            "COMPRAR" => "bg-comprar",
+            "COMPRAR FRACO" => "bg-orange text-dark",
+            "MANTER" => "bg-danger text-dark",
+            _ => "bg-secondary text-dark"
+        };
+
+    // ==========================================
+    // GRÁFICO HISTÓRICO DE PREÇOS
+    // ==========================================
+
+    private class PontoHistorico
+    {
+        public DateTime Data { get; set; }
+        public double Preco { get; set; }
+    }
+
+    private List<PontoHistorico> Historico = new();
+
+    private string periodoSelecionado = "1y";
+
+    private readonly Dictionary<string, string> Periodos = new()
+    {
+        ["1D"] = "1d",
+        ["1M"] = "1mo",
+        ["6M"] = "6mo",
+        ["1A"] = "1y",
+        ["5A"] = "5y",
+        ["Máx."] = "max"
+    };
+
+    private string PontosGrafico
+    {
+        get
+        {
+            if (Historico.Count < 2)
+                return "";
+
+            double min = Historico.Min(x => x.Preco);
+            double max = Historico.Max(x => x.Preco);
+            double amplitude = max - min;
+
+            if (amplitude == 0)
+                amplitude = 1;
+
+            return string.Join(" ",
+                Historico.Select((x, i) =>
+                {
+                    double px =
+                        i * 800.0 / (Historico.Count - 1);
+
+                    double py =
+                        220 - ((x.Preco - min) / amplitude * 180);
+
+                    return
+                        $"{px.ToString("F1", CultureInfo.InvariantCulture)}," +
+                        $"{py.ToString("F1", CultureInfo.InvariantCulture)}";
+                }));
+        }
+    }
+
+    private string PontosArea =>
+        string.IsNullOrEmpty(PontosGrafico)
+            ? ""
+            : $"0,220 {PontosGrafico} 800,220";
+
+    // ==========================================
+    // CARREGAMENTO
+    // ==========================================
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await CarregarTudo();
+    }
+
+    private async Task CarregarTudo()
+    {
+        try
+        {
+            carregando = true;
+            erro = null;
+
+            await CarregarParametros();
+            await CarregarAcao();
+            await CarregarCotacao();
+
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message;
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    // ==========================================
+    // CARREGAR PARÂMETROS
+    // ==========================================
+
+    private async Task CarregarParametros()
+    {
+        Parametros = await Http.GetFromJsonAsync<Configuracoes>(
+            "data/configuracoes/parametros.json"
+        ) ?? throw new Exception(
+            "Não foi possível carregar os parâmetros."
+        );
+
+        if (Parametros.Graham.Fator <= 0)
+            throw new Exception(
+                "Fator de Graham não encontrado nos parâmetros."
+            );
+
+        if (Parametros.Barsi.DY <= 0)
+            throw new Exception(
+                "DY padrão do Barsi não encontrado nos parâmetros."
+            );
+    }
+
+    // ==========================================
+    // CARREGAR AÇÃO DO JSON
+    // ==========================================
+
+    private async Task CarregarAcao()
+    {
+        var json = await Http.GetStringAsync(
+            $"data/acoes/{Uri.EscapeDataString(Codigo)}.json"
+        );
+
+        using var documento = JsonDocument.Parse(json);
+
+        dados = documento.RootElement.Clone();
+
+        var raiz = dados.Value;
+
+        // Limpa dados anteriores
+        Dividendos.Clear();
+        LPA = 0;
+        VPA = 0;
+        Fundamentos = null;
+
+        Nome = raiz.TryGetProperty("Nome", out var nome)
+            ? nome.GetString() ?? Codigo
+            : Codigo;
+
+        Setor = raiz.TryGetProperty("Setor", out var setor)
+            ? setor.GetString() ?? ""
+            : "";
+
+        // --------------------------------------
+        // ANÁLISE BARSI
+        // --------------------------------------
+
+        if (raiz.TryGetProperty(
+            "Analise_Barsi", out var barsi) &&
+            barsi.ValueKind == JsonValueKind.Object &&
+            barsi.TryGetProperty(
+                "Dividendos", out var dividendos) &&
+            dividendos.ValueKind == JsonValueKind.Object)
+        {
+            Dividendos = dividendos.EnumerateObject()
+                .Where(x =>
+                    x.Value.ValueKind == JsonValueKind.Number)
+                .ToDictionary(
+                    x => x.Name,
+                    x => x.Value.GetDouble()
+                );
+        }
+
+        // --------------------------------------
+        // ANÁLISE GRAHAM
+        // --------------------------------------
+
+        if (raiz.TryGetProperty(
+            "Analise_Graham", out var graham) &&
+            graham.ValueKind == JsonValueKind.Object)
+        {
+            if (graham.TryGetProperty("LPA", out var lpa) &&
+                lpa.ValueKind == JsonValueKind.Number)
+            {
+                LPA = lpa.GetDouble();
+            }
+
+            if (graham.TryGetProperty("VPA", out var vpa) &&
+                vpa.ValueKind == JsonValueKind.Number)
+            {
+                VPA = vpa.GetDouble();
+            }
+        }
+
+        // --------------------------------------
+        // FUNDAMENTOS DINÂMICOS
+        // --------------------------------------
+
+        if (raiz.TryGetProperty(
+            "Fundamentos", out var fundamentos) &&
+            fundamentos.ValueKind == JsonValueKind.Object)
+        {
+            Fundamentos = fundamentos.Clone();
+        }
+    }
+
+    // ==========================================
+    // COTAÇÃO BRAPI - MESMO PADRÃO DA TELA BARSI
+    // ==========================================
+
+    private class BrapiListResponse
+    {
+        [JsonPropertyName("stocks")]
+        public List<BrapiStock>? Stocks { get; set; }
+
+        [JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+    }
+
+    private class BrapiStock
+    {
+        [JsonPropertyName("stock")]
+        public string? StockCode { get; set; }
+
+        [JsonPropertyName("close")]
+        public double? Close { get; set; }
+
+        [JsonPropertyName("change")]
+        public double? Change { get; set; }
+    }
+
+    private async Task CarregarCotacao()
+    {
+        try
+        {
+            erro = null;
+
+            double? precoEncontrado = null;
+            double? variacaoEncontrada = null;
+
+            int pagina = 1;
+
+            while (true)
+            {
+                var url =
+                    $"https://brapi.dev/api/quote/list?limit=100&type=stock&page={pagina}&sortBy=close&sortOrder=asc";
+
+                var response =
+                    await Http.GetFromJsonAsync<BrapiListResponse>(url);
+
+                if (response?.Stocks == null ||
+                    response.Stocks.Count == 0)
+                    break;
+
+                var acao = response.Stocks.FirstOrDefault(
+                    x => string.Equals(
+                        x.StockCode,
+                        Codigo,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                );
+
+                if (acao != null)
+                {
+                    precoEncontrado = acao.Close;
+                    variacaoEncontrada = acao.Change;
+                    break;
+                }
+
+                if (pagina >= response.TotalPages)
+                    break;
+
+                pagina++;
+            }
+
+            if (precoEncontrado == null || precoEncontrado <= 0)
+                throw new Exception(
+                    $"{Codigo} não encontrada na brapi.dev."
+                );
+
+            PrecoAtual = precoEncontrado.Value;
+            Variacao = variacaoEncontrada ?? 0;
+
+            ultimaAtualizacao = DateTime.Now;
+        }
+        catch (Exception ex)
+        {
+            PrecoAtual = 0;
+            Variacao = 0;
+            erro = $"Erro ao consultar cotação: {ex.Message}";
+        }
+    }
+
+
+    // ==========================================
+    // ATUALIZAR
+    // ==========================================
+
+    private async Task Atualizar()
+    {
+        try
+        {
+            atualizando = true;
+            erro = null;
+
+            await CarregarParametros();
+            await CarregarAcao();
+            await CarregarCotacao();
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message;
+        }
+        finally
+        {
+            atualizando = false;
+        }
+    }
+
+    // ==========================================
+    // FORMATAÇÃO
+    // ==========================================
+
+    private string FormatarMoeda(double valor) =>
+        valor.ToString("C2", Cultura);
+
+    // Nomes amigáveis dos indicadores
+    private string FormatarNome(string nome)
+    {
+        var nomes = new Dictionary<string, string>(
+            StringComparer.OrdinalIgnoreCase)
+        {
+            ["pl"] = "P/L",
+            ["pvp"] = "P/VP",
+            ["roe"] = "ROE",
+            ["roa"] = "ROA",
+            ["lpa"] = "LPA",
+            ["vpa"] = "VPA",
+            ["dy"] = "Dividend Yield",
+            ["dividend_yield"] = "Dividend Yield",
+            ["margem_liquida"] = "Margem Líquida",
+            ["margem_bruta"] = "Margem Bruta",
+            ["margem_ebit"] = "Margem EBIT",
+            ["divida_liquida_ebitda"] = "Dívida Líquida / EBITDA"
+        };
+
+        if (nomes.TryGetValue(nome, out var descricao))
+            return descricao;
+
+        return Cultura.TextInfo.ToTitleCase(
+            nome.Replace("_", " ").ToLower()
+        );
+    }
+
+    // Formatação dinâmica dos valores
+    private string FormatarValor(string nome, JsonElement valor)
+    {
+        if (valor.ValueKind == JsonValueKind.Number)
+        {
+            double numero = valor.GetDouble();
+
+            bool percentual =
+                nome.Contains("dy", StringComparison.OrdinalIgnoreCase) ||
+                nome.Contains("yield", StringComparison.OrdinalIgnoreCase) ||
+                nome.Contains("roe", StringComparison.OrdinalIgnoreCase) ||
+                nome.Contains("roa", StringComparison.OrdinalIgnoreCase) ||
+                nome.Contains("margem", StringComparison.OrdinalIgnoreCase);
+
+            return numero.ToString("N2", Cultura) +
+                (percentual ? "%" : "");
+        }
+
+        return valor.ValueKind switch
+        {
+            JsonValueKind.String =>
+                valor.GetString() ?? "--",
+
+            JsonValueKind.True => "Sim",
+            JsonValueKind.False => "Não",
+            JsonValueKind.Null => "--",
+
+            _ => valor.ToString()
+        };
+    }
+
+    // Altura das barras do gráfico de dividendos
+    private string AlturaDividendo(double valor)
+    {
+        double maximo = Dividendos.Values.DefaultIfEmpty(0).Max();
+
+        if (maximo <= 0)
+            return "3px";
+
+        double altura = Math.Max(3, (valor / maximo) * 100);
+
+        return $"{altura:F1}px";
+    }
+
+    // ==========================================
+    // NAVEGAÇÃO
+    // ==========================================
+
+    private void Voltar()
+    {
+        Navigation.NavigateTo("/RecomendacaoUnificada");
+    }
+
+}
+

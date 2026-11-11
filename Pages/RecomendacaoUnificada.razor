@@ -6,6 +6,7 @@
 @using TabBlazor
 
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
 <PageTitle>Recomendações Gerais</PageTitle>
 
@@ -74,7 +75,8 @@
                             var viesGraham = CalcularViesGraham(acao);
                             var viesGeral = CalcularViesGeral(acao);
 
-                            <tr>
+                            <tr style="cursor:pointer"
+                                @onclick="() => AbrirAcao(acao.Codigo)">
 
                                 <!-- AÇÃO -->
                                 <td>
@@ -668,6 +670,7 @@
             erro = null;
 
             await CarregarParametros();
+
             await CarregarAcoes();
 
             await ConsultarCotacoes();
@@ -778,4 +781,8 @@
         public double? Close { get; set; }
     }
 
+    private void AbrirAcao(string codigo)
+    {
+        Navigation.NavigateTo($"/Acao/{codigo}");
+    }
 }
