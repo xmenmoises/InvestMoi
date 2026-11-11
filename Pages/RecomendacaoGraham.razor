@@ -6,6 +6,7 @@
 @using TabBlazor
 
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
 <PageTitle>Recomendações Graham</PageTitle>
 
@@ -74,7 +75,8 @@
 
                         @foreach (var acao in Acoes.OrderBy(x => x.PM))
                         {
-                            <tr>
+                            <tr style="cursor:pointer"
+                                @onclick="() => AbrirAcao(acao.Codigo)">
 
                                 <!-- AÇÃO -->
                                 <td>
@@ -720,6 +722,11 @@
 
         [JsonPropertyName("close")]
         public double? Close { get; set; }
+    }
+
+    private void AbrirAcao(string codigo)
+    {
+        Navigation.NavigateTo($"/Acao/{codigo}");
     }
 
 }
