@@ -30,53 +30,47 @@
     else
     {
         <!-- CABEÇALHO -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div class="acao-header mb-4">
 
-            <!-- IDENTIFICAÇÃO -->
-            <div>
-                <button class="btn btn-sm btn-outline-secondary mb-3"
-                        @onclick="Voltar">
-                    <i class="ti ti-arrow-left"></i> Voltar
-                </button>
+            <button class="btn btn-sm btn-outline-secondary mb-3"
+                    @onclick="Voltar">
+                <i class="ti ti-arrow-left"></i> Voltar
+            </button>
 
-                <h1 class="mb-1">@Codigo</h1>
+            <div class="d-flex flex-column flex-sm-row
+                justify-content-between gap-3">
 
-                <div class="text-muted">@Nome</div>
+                <div>
+                    <h1 class="mb-1">@Codigo</h1>
+                    <div class="text-muted">@Nome</div>
+                </div>
 
-            </div>
+                <div class="d-flex flex-row flex-sm-column
+                    align-items-center align-items-sm-end
+                    justify-content-between gap-2">
 
-            <!-- COTAÇÃO E ATUALIZAÇÃO -->
-            <div class="d-flex flex-column align-items-end gap-2">
-
-                @if (PrecoAtual > 0)
-                {
-                    <div class="card shadow-sm">
-                        <div class="card-body py-3 px-4">
-
-                            <div class="subheader">
-                                Cotação atual
-                            </div>
-
-                            <div class="d-flex align-items-center gap-2">
-
-                                <span class="h1 mb-0">
+                    @if (PrecoAtual > 0)
+                    {
+                        <div class="card shadow-sm">
+                            <div class="card-body py-2 px-3">
+                                <div class="subheader">
+                                    Cotação atual
+                                </div>
+                                <div class="h2 mb-0">
                                     @FormatarMoeda(PrecoAtual)
-                                </span>
-
+                                </div>
                             </div>
-
                         </div>
-                    </div>
-                }
+                    }
 
-                <button class="btn btn-primary order-first"
-                        @onclick="Atualizar"
-                        disabled="@atualizando">
-                    @(atualizando ? "Atualizando..." : "Atualizar")
-                </button>
+                    <button class="btn btn-primary"
+                            @onclick="Atualizar"
+                            disabled="@atualizando">
+                        @(atualizando ? "Atualizando..." : "Atualizar")
+                    </button>
 
+                </div>
             </div>
-
         </div>
 
         @if (LPA < 0)
@@ -124,12 +118,13 @@
                             <div class="row g-3">
                                 @foreach (var campo in ObterCampos("Tipo", "Setor", "Subsetor"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
-                                        <div class="border rounded p-3 h-100">
-                                            <div class="text-muted small mb-1">
+                                    <div class="col-12 col-sm-6 col-xl-3">
+                                        <div class="fundamento-item border rounded p-3 h-100">
+                                            <div class="fundamento-label">
                                                 @FormatarNome(campo.Nome)
                                             </div>
-                                            <div class="h3 mb-0">
+
+                                            <div class="fundamento-valor">
                                                 @FormatarValor(campo.Nome, campo.Valor)
                                             </div>
                                         </div>
@@ -152,7 +147,7 @@
                                     "P_L", "P_VP", "P_EBIT", "PSR",
                                     "P_Ativos", "P_Cap_Giro", "P_Ativ_Circ_Liq"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -178,7 +173,7 @@
                                 @foreach (var campo in ObterCampos(
                                     "Div_Yield", "EV_EBITDA", "EV_EBIT", "LPA", "VPA"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -206,7 +201,7 @@
                                     "Cres_Rec_5a", "Marg_Bruta",
                                     "Marg_EBIT", "Marg_Liquida"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -232,7 +227,7 @@
                                 @foreach (var campo in ObterCampos(
                                     "EBIT_Ativo", "ROIC", "ROE", "Giro_Ativos"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -258,7 +253,7 @@
                                 @foreach (var campo in ObterCampos(
                                     "Liquidez_Corr", "Div_Liq_Patrim"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -290,7 +285,7 @@
                                     "Ativo_Circulante", "Div_Bruta",
                                     "Div_Liquida", "Patrim_Liq"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -327,7 +322,7 @@
                                     "EBIT_Ultimos_3_Meses",
                                     "Lucro_Liquido_Ultimos_3_Meses"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -352,7 +347,7 @@
                             <div class="row g-3">
                                 @foreach (var campo in ObterCampos("Ult_balanco_processado"))
                                 {
-                                    <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="col-12 col-sm-6 col-xl-3">
                                         <div class="border rounded p-3 h-100">
                                             <div class="text-muted small mb-1">
                                                 @FormatarNome(campo.Nome)
@@ -606,7 +601,12 @@
 
 </div>
 
+
 <style>
+
+    /* ==========================================
+           GRÁFICO DE PREÇOS
+        ========================================== */
 
     .grafico-precos {
         width: 100%;
@@ -619,23 +619,76 @@
         overflow: visible;
     }
 
-    .grafico-dividendos {
-        height: 160px;
+
+    /* ==========================================
+       GRÁFICO DE DIVIDENDOS
+    ========================================== */
+
+    .grafico-dividendos-scroll {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .barra-dividendo-container {
-        height: 105px;
+    .grafico-dividendos {
         display: flex;
-        align-items: end;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 6px;
+        width: 100%;
+        min-width: 0;
+        height: 165px;
+        border-bottom: 1px solid var(--tblr-border-color);
+    }
+
+    .dividendo-item {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .dividendo-valor {
+        font-size: 10px;
+        white-space: nowrap;
+        margin-bottom: 5px;
+        color: var(--tblr-body-color);
+    }
+
+    .dividendo-barra-area {
+        height: 105px;
+        width: 100%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: flex-end;
         justify-content: center;
     }
 
     .barra-dividendo {
-        width: 70%;
-        min-height: 2px;
+        width: 65%;
+        min-height: 3px;
         background: var(--tblr-primary);
         border-radius: 4px 4px 0 0;
+        transition: height 0.3s ease;
     }
+
+    .dividendo-ano {
+        font-size: 10px;
+        margin-top: 7px;
+        color: var(--tblr-secondary-color);
+        white-space: nowrap;
+    }
+
+
+    /* ==========================================
+           CLASSIFICAÇÕES
+        ========================================== */
 
     .bg-comprar {
         background: #ffeb00 !important;
@@ -651,70 +704,99 @@
         color: #f59f00 !important;
     }
 
-    @@media(max-width: 576px) {
-        .grafico-precos {
-            height: 190px;
+
+    /* ==========================================
+           FUNDAMENTOS DA EMPRESA
+        ========================================== */
+
+    .fundamento-item {
+        min-width: 0;
+        height: 100%;
+        background: var(--tblr-bg-surface);
+    }
+
+    .fundamento-label {
+        font-size: 0.8rem;
+        color: var(--tblr-secondary-color);
+        margin-bottom: 6px;
+    }
+
+    .fundamento-valor {
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* ==========================================
+       RESPONSIVIDADE - CELULAR
+    ========================================== */
+
+    @@media (max-width: 576px) {
+
+        .grafico-dividendos-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: thin;
         }
 
         .grafico-dividendos {
-            overflow-x: auto;
-            min-width: 0;
+            width: max-content;
+            min-width: 680px;
+            height: 155px;
+            gap: 8px;
+        }
+
+        .dividendo-item {
+            flex: 0 0 30px;
+            min-width: 30px;
+        }
+
+        .dividendo-valor {
+            font-size: 9px;
+            margin-bottom: 5px;
+        }
+
+        .dividendo-barra-area {
+            height: 95px;
+        }
+
+        .barra-dividendo {
+            width: 70%;
+        }
+
+        .dividendo-ano {
+            font-size: 9px;
+            margin-top: 5px;
+        }
+
+
+    /* ==========================================
+           TELAS MUITO PEQUENAS
+        ========================================== */
+
+    @@media (max-width: 360px) {
+
+        .grafico-dividendos {
+            gap: 1px;
+        }
+
+        .dividendo-valor {
+            font-size: 8px;
+        }
+
+        .dividendo-ano {
+            font-size: 8px;
+        }
+
+        .barra-dividendo {
+            width: 75%;
         }
     }
 
-    .grafico-dividendos-scroll {
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 8px;
-    }
-
-    .grafico-dividendos {
-        display: flex;
-        align-items: flex-end;
-        gap: 10px;
-        min-width: 620px;
-        height: 155px;
-        border-bottom: 1px solid var(--tblr-border-color);
-    }
-
-    .dividendo-item {
-        flex: 1;
-        min-width: 28px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-    }
-
-    .dividendo-valor {
-        font-size: 10px;
-        white-space: nowrap;
-        margin-bottom: 5px;
-    }
-
-    .dividendo-barra-area {
-        height: 105px;
-        width: 100%;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-    }
-
-    .barra-dividendo {
-        width: 65%;
-        min-height: 3px;
-        background: var(--tblr-primary);
-        border-radius: 4px 4px 0 0;
-    }
-
-    .dividendo-ano {
-        font-size: 10px;
-        margin-top: 7px;
-        color: var(--tblr-secondary-color);
-    }
-
 </style>
+
 
 
 @code {
@@ -1385,7 +1467,7 @@
 
         double altura = Math.Max(3, (valor / maximo) * 100);
 
-        return $"{altura:F1}px";
+        return $"{altura.ToString("F1", CultureInfo.InvariantCulture)}px";
     }
 
     // ==========================================

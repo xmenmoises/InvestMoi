@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\TesteBarsiKLBN4.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.14" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" Version="9.12.0" />
