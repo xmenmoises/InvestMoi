@@ -142,7 +142,7 @@
                 <div>
                     <span class="badge bg-info text-dark">PM</span>
                     <span class="text-muted small ms-1">
-                        Preço de Mercado
+                        Preço de Mercado (Preço Atual)
                     </span>
                 </div>
 
@@ -207,7 +207,9 @@
     }
 
     .table th {
-        white-space: nowrap;
+        white-space: normal;
+        vertical-align: middle;
+        text-align: center;
     }
 
     .table td {
@@ -285,6 +287,17 @@
             .acoes-table th:nth-child(5),
             .acoes-table td:nth-child(5) {
                 font-size: 9px;
+            }
+
+            .acoes-table thead th {
+                white-space: normal !important;
+                overflow-wrap: break-word;
+                word-break: normal;
+                font-size: 9px;
+                line-height: 1.2;
+                text-align: center;
+                vertical-align: middle;
+                padding: 0.5rem 0.1rem !important;
             }
     }
 
@@ -563,7 +576,7 @@
             return "Empresa com prejuízo";
 
         if (barsi == "AGUARDANDO" || graham == "AGUARDANDO")
-            return "AGUARDANDO";        
+            return "AGUARDANDO";
 
         double pontuacaoBarsi = PontuarVies(barsi);
         double pontuacaoGraham = PontuarVies(graham);

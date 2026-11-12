@@ -63,7 +63,7 @@
                             <th class="text-end">PM</th>
                             <th class="text-end d-none d-md-table-cell">Média</th>
                             <th class="text-end d-none d-md-table-cell">DY (%)</th>
-                            <th class="text-end d-none d-md-table-cell">PT</th>
+                            <th class="text-end">PT</th>
                             <th class="text-end d-none d-md-table-cell">PT / PM</th>
                             <th class="text-center">Viés</th>
                         </tr>
@@ -107,7 +107,7 @@
                                 </td>
 
                                 <!-- PREÇO TETO -->
-                                <td class="text-end d-none d-md-table-cell text-success fw-bold">
+                                <td class="text-end text-success fw-bold">
                                     @FormatarMoeda(acao.PT)
                                 </td>
 
@@ -219,7 +219,9 @@
     }
 
     .table th {
-        white-space: nowrap;
+        white-space: normal;
+        vertical-align: middle;
+        text-align: center;
     }
 
     .table td {
@@ -253,34 +255,61 @@
             /* Largura das colunas */
             .acoes-table th:nth-child(1),
             .acoes-table td:nth-child(1) {
-                width: 40%;
+                width: 18%;
             }
 
             .acoes-table th:nth-child(2),
             .acoes-table td:nth-child(2) {
-                width: 25%;
+                width: 23%;
             }
 
-            .acoes-table th:nth-child(7),
-            .acoes-table td:nth-child(7) {
-                width: 35%;
+            .acoes-table th:nth-child(3),
+            .acoes-table td:nth-child(3) {
+                width: 23%;
             }
-            /* Reduz espaçamento interno */
+
+            .acoes-table th:nth-child(4),
+            .acoes-table td:nth-child(4) {
+                width: 23%;
+            }
+
+            .acoes-table th:nth-child(5),
+            .acoes-table td:nth-child(5) {
+                width: 13%;
+            }
+            /* Espaçamento */
             .acoes-table th,
             .acoes-table td {
-                padding: 0.65rem 0.35rem !important;
-                font-size: 12px;
-            }
-                /* Valores */
-                .acoes-table td:nth-child(2) {
-                    white-space: nowrap;
-                    font-size: 11px;
-                }
-            /* Badges */
-            .acoes-table .badge {
+                padding: 0.65rem 0.15rem !important;
                 font-size: 10px;
-                padding: 0.3rem 0.4rem;
-                white-space: nowrap;
+            }
+
+                .acoes-table td:nth-child(1) {
+                    white-space: normal;
+                    overflow-wrap: anywhere;
+                }
+
+            .acoes-table .badge {
+                font-size: 9px;
+                padding: 0.3rem 0.2rem;
+                white-space: normal;
+                display: inline-block;
+            }
+
+            .acoes-table th:nth-child(5),
+            .acoes-table td:nth-child(5) {
+                font-size: 9px;
+            }
+
+            .acoes-table thead th {
+                white-space: normal !important;
+                overflow-wrap: break-word;
+                word-break: normal;
+                font-size: 9px;
+                line-height: 1.2;
+                text-align: center;
+                vertical-align: middle;
+                padding: 0.5rem 0.1rem !important;
             }
     }
 
