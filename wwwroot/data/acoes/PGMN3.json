@@ -1,0 +1,59 @@
+{
+  "Codigo": "PGMN3",
+  "Nome": "PAGUE MENOS ON NM",
+  "Analise_Barsi": {
+    "Dividendos": {
+      "2025": 0.511,
+      "2024": 0.296,
+      "2023": 0.186
+    }
+  },
+  "Analise_Graham": {
+    "LPA": 0.48,
+    "VPA": 4.83
+  },
+  "Fundamentos": {
+    "Tipo": "ON NM",
+    "Setor": "Com\u00E9rcio e Distribui\u00E7\u00E3o",
+    "Subsetor": "Medicamentos e Outros Produtos",
+    "P_L": "5,04",
+    "P_VP": "0,50",
+    "P_EBIT": "1,81",
+    "PSR": "0,11",
+    "P_Ativos": "0,18",
+    "P_Cap_Giro": "0,67",
+    "P_Ativ_Circ_Liq": "-2,67",
+    "Div_Yield": "9,8%",
+    "EV_EBITDA": "2,13",
+    "EV_EBIT": "3,35",
+    "LPA": "0,48",
+    "VPA": "4,83",
+    "Cres_Rec_5a": "16,3%",
+    "Marg_Bruta": "32,4%",
+    "Marg_EBIT": "6,1%",
+    "Marg_Liquida": "2,2%",
+    "EBIT_Ativo": "9,7%",
+    "ROIC": "12,7%",
+    "ROE": "9,9%",
+    "Giro_Ativos": "1,59",
+    "Liquidez_Corr": "1,81",
+    "Div_Liq_Patrim": "0,42",
+    "Valor_de_mercado": "1.744.590.000",
+    "Valor_da_firma": "3.226.620.000",
+    "Nro_Acoes": "723.898.000",
+    "Ativo": "9.958.370.000",
+    "Disponibilidades": "125.867.000",
+    "Ativo_Circulante": "5.798.010.000",
+    "Div_Bruta": "1.607.890.000",
+    "Div_Liquida": "1.482.020.000",
+    "Patrim_Liq": "3.497.450.000",
+    "Receita_Liquida_Ultimos_12_Meses": "15.846.400.000",
+    "EBIT_Ultimos_12_Meses": "962.549.000",
+    "Lucro_Liquido_Ultimos_12_Meses": "346.167.000",
+    "Receita_Liquida_Ultimos_3_Meses": "4.062.180.000",
+    "EBIT_Ultimos_3_Meses": "267.193.000",
+    "Lucro_Liquido_Ultimos_3_Meses": "93.594.000",
+    "Ult_balanco_processado": "30/09/2026"
+  },
+  "BESST": false
+}

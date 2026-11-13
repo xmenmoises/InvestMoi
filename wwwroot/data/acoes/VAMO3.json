@@ -1,0 +1,61 @@
+{
+  "Codigo": "VAMO3",
+  "Nome": "VAMOS ON NM",
+  "Analise_Barsi": {
+    "Dividendos": {
+      "2025": 0.141,
+      "2024": 0.268,
+      "2023": 0.337,
+      "2022": 0.261,
+      "2021": 0.196
+    }
+  },
+  "Analise_Graham": {
+    "LPA": 0.34,
+    "VPA": 2.83
+  },
+  "Fundamentos": {
+    "Tipo": "ON NM",
+    "Setor": "Diversos",
+    "Subsetor": "Aluguel de carros",
+    "P_L": "7,69",
+    "P_VP": "0,93",
+    "P_EBIT": "1,15",
+    "PSR": "0,51",
+    "P_Ativos": "0,14",
+    "P_Cap_Giro": "1,58",
+    "P_Ativ_Circ_Liq": "-0,24",
+    "Div_Yield": "4,8%",
+    "EV_EBITDA": "3,74",
+    "EV_EBIT": "5,35",
+    "LPA": "0,34",
+    "VPA": "2,83",
+    "Cres_Rec_5a": "1,6%",
+    "Marg_Bruta": "50,4%",
+    "Marg_EBIT": "44,5%",
+    "Marg_Liquida": "6,6%",
+    "EBIT_Ativo": "12,2%",
+    "ROIC": "15,7%",
+    "ROE": "12,1%",
+    "Giro_Ativos": "0,27",
+    "Liquidez_Corr": "1,52",
+    "Div_Liq_Patrim": "3,40",
+    "Valor_de_mercado": "3.201.190.000",
+    "Valor_da_firma": "14.931.500.000",
+    "Nro_Acoes": "1.221.830.000",
+    "Ativo": "22.772.200.000",
+    "Disponibilidades": "3.826.410.000",
+    "Ativo_Circulante": "5.913.910.000",
+    "Div_Bruta": "15.556.700.000",
+    "Div_Liquida": "11.730.300.000",
+    "Patrim_Liq": "3.452.430.000",
+    "Receita_Liquida_Ultimos_12_Meses": "6.261.860.000",
+    "EBIT_Ultimos_12_Meses": "2.788.590.000",
+    "Lucro_Liquido_Ultimos_12_Meses": "416.275.000",
+    "Receita_Liquida_Ultimos_3_Meses": "1.594.250.000",
+    "EBIT_Ultimos_3_Meses": "719.008.000",
+    "Lucro_Liquido_Ultimos_3_Meses": "150.909.000",
+    "Ult_balanco_processado": "30/09/2026"
+  },
+  "BESST": false
+}

@@ -1,0 +1,58 @@
+{
+  "Codigo": "GMAT3",
+  "Nome": "GRUPO MATEUS ON NM",
+  "Analise_Barsi": {
+    "Dividendos": {
+      "2025": 0.249,
+      "2024": 0.194
+    }
+  },
+  "Analise_Graham": {
+    "LPA": 0.47,
+    "VPA": 4.99
+  },
+  "Fundamentos": {
+    "Tipo": "ON NM",
+    "Setor": "Com\u00E9rcio e Distribui\u00E7\u00E3o",
+    "Subsetor": "Alimentos",
+    "P_L": "8,15",
+    "P_VP": "0,77",
+    "P_EBIT": "4,58",
+    "PSR": "0,22",
+    "P_Ativos": "0,36",
+    "P_Cap_Giro": "1,47",
+    "P_Ativ_Circ_Liq": "13,64",
+    "Div_Yield": "1,3%",
+    "EV_EBITDA": "3,84",
+    "EV_EBIT": "5,17",
+    "LPA": "0,47",
+    "VPA": "4,99",
+    "Cres_Rec_5a": "19,3%",
+    "Marg_Bruta": "22,9%",
+    "Marg_EBIT": "4,8%",
+    "Marg_Liquida": "2,7%",
+    "EBIT_Ativo": "7,8%",
+    "ROIC": "10,2%",
+    "ROE": "9,5%",
+    "Giro_Ativos": "1,63",
+    "Liquidez_Corr": "1,88",
+    "Div_Liq_Patrim": "0,10",
+    "Valor_de_mercado": "8.846.180.000",
+    "Valor_da_firma": "9.986.900.000",
+    "Nro_Acoes": "2.303.690.000",
+    "Ativo": "24.835.200.000",
+    "Disponibilidades": "1.586.430.000",
+    "Ativo_Circulante": "12.829.300.000",
+    "Div_Bruta": "2.727.150.000",
+    "Div_Liquida": "1.140.720.000",
+    "Patrim_Liq": "11.484.100.000",
+    "Receita_Liquida_Ultimos_12_Meses": "40.520.800.000",
+    "EBIT_Ultimos_12_Meses": "1.933.130.000",
+    "Lucro_Liquido_Ultimos_12_Meses": "1.086.020.000",
+    "Receita_Liquida_Ultimos_3_Meses": "10.716.200.000",
+    "EBIT_Ultimos_3_Meses": "565.000.000",
+    "Lucro_Liquido_Ultimos_3_Meses": "312.065.000",
+    "Ult_balanco_processado": "30/09/2026"
+  },
+  "BESST": false
+}

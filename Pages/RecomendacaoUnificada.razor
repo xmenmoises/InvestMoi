@@ -64,6 +64,7 @@
                             <th class="text-center">Viés Graham</th>
                             <th class="text-center">Viés Geral</th>
                             <th class="text-end">PM</th>
+                            <th class="text-end">BESST</th>
                         </tr>
                     </thead>
 
@@ -116,6 +117,18 @@
                                     else
                                     {
                                         <span class="text-muted">--</span>
+                                    }
+                                </td>
+
+                                <!-- BESST -->
+                                <td class="text-center">
+                                    @if (acao.BESST)
+                                    {
+                                        <span class="badge bg-success text-dark">SIM</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger text-dark">NÃO</span>
                                     }
                                 </td>
 
@@ -389,6 +402,9 @@
 
         [JsonPropertyName("Nome")]
         public string Nome { get; set; } = "";
+
+        [JsonPropertyName("BESST")]
+        public bool BESST { get; set; } = false;
 
         [JsonPropertyName("Analise_Barsi")]
         public DadosBarsi AnaliseBarsi { get; set; } = new();

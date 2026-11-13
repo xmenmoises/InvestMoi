@@ -21,14 +21,14 @@
     "Tipo": "PN N1",
     "Setor": "Intermedi\u00E1rios Financeiros",
     "Subsetor": "Bancos",
-    "P_L": "5,48",
+    "P_L": "5,45",
     "P_VP": "0,77",
     "P_EBIT": "-",
     "PSR": "-",
     "P_Ativos": "-",
     "P_Cap_Giro": "-",
     "P_Ativ_Circ_Liq": "-",
-    "Div_Yield": "9,8%",
+    "Div_Yield": "8,1%",
     "EV_EBITDA": "-",
     "EV_EBIT": "-",
     "LPA": "0,95",
@@ -43,7 +43,7 @@
     "Giro_Ativos": "-",
     "Liquidez_Corr": "-",
     "Div_Liq_Patrim": "-",
-    "Valor_de_mercado": "3.390.530.000",
+    "Valor_de_mercado": "3.371.080.000",
     "Valor_da_firma": "-",
     "Nro_Acoes": "648.284.000",
     "Ativo": "45.390.300.000",
@@ -59,5 +59,6 @@
     "EBIT_Ultimos_3_Meses": "",
     "Lucro_Liquido_Ultimos_3_Meses": "141.364.000",
     "Ult_balanco_processado": "30/09/2026"
-  }
+  },
+  "BESST": true
 }

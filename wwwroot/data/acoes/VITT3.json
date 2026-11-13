@@ -1,0 +1,62 @@
+{
+  "Codigo": "VITT3",
+  "Nome": "VITTIA ON NM",
+  "Analise_Barsi": {
+    "Dividendos": {
+      "2026": 0.117,
+      "2025": 0.267,
+      "2024": 0.148,
+      "2023": 0.393,
+      "2022": 0.365,
+      "2021": 0.098
+    }
+  },
+  "Analise_Graham": {
+    "LPA": 0.39,
+    "VPA": 3.95
+  },
+  "Fundamentos": {
+    "Tipo": "ON NM",
+    "Setor": "Qu\u00EDmicos",
+    "Subsetor": "Fertilizantes e Defensivos",
+    "P_L": "6,81",
+    "P_VP": "0,68",
+    "P_EBIT": "10,11",
+    "PSR": "0,54",
+    "P_Ativos": "0,44",
+    "P_Cap_Giro": "1,19",
+    "P_Ativ_Circ_Liq": "1,65",
+    "Div_Yield": "5,9%",
+    "EV_EBITDA": "8,75",
+    "EV_EBIT": "13,89",
+    "LPA": "0,39",
+    "VPA": "3,95",
+    "Cres_Rec_5a": "-1,8%",
+    "Marg_Bruta": "29,5%",
+    "Marg_EBIT": "5,4%",
+    "Marg_Liquida": "7,9%",
+    "EBIT_Ativo": "4,4%",
+    "ROIC": "4,9%",
+    "ROE": "9,9%",
+    "Giro_Ativos": "0,82",
+    "Liquidez_Corr": "2,58",
+    "Div_Liq_Patrim": "0,25",
+    "Valor_de_mercado": "420.765.000",
+    "Valor_da_firma": "578.280.000",
+    "Nro_Acoes": "157.590.000",
+    "Ativo": "946.181.000",
+    "Disponibilidades": "65.307.000",
+    "Ativo_Circulante": "578.667.000",
+    "Div_Bruta": "222.822.000",
+    "Div_Liquida": "157.515.000",
+    "Patrim_Liq": "622.504.000",
+    "Receita_Liquida_Ultimos_12_Meses": "775.842.000",
+    "EBIT_Ultimos_12_Meses": "41.639.000",
+    "Lucro_Liquido_Ultimos_12_Meses": "61.830.000",
+    "Receita_Liquida_Ultimos_3_Meses": "281.731.000",
+    "EBIT_Ultimos_3_Meses": "51.817.000",
+    "Lucro_Liquido_Ultimos_3_Meses": "34.213.000",
+    "Ult_balanco_processado": "30/09/2026"
+  },
+  "BESST": false
+}
