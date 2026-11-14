@@ -590,7 +590,7 @@
         if (relacao >= comprar)
             return "COMPRAR";
 
-        if (relacao > comprarFraco)
+        if (relacao >= comprarFraco)
             return "COMPRAR FRACO";
 
         return "MANTER";
@@ -611,33 +611,31 @@
         if (barsi == "AGUARDANDO" || graham == "AGUARDANDO")
             return "AGUARDANDO";
 
-        double pontuacaoBarsi = PontuarVies(barsi);
-        double pontuacaoGraham = PontuarVies(graham);
+        // Se os dois métodos concordarem, mantém o mesmo resultado.
+        if (barsi == graham)
+            return barsi;
 
-        double media = (pontuacaoBarsi + pontuacaoGraham) / 2;
+        List<string> vieses = new() { barsi, graham };
 
-        if (media >= 2.5)
-            return "COMPRAR FORTE";
-
-        if (media >= 1.75)
+        if (vieses.Contains("COMPRAR FORTE") && vieses.Contains("COMPRAR"))
             return "COMPRAR";
 
-        if (media >= 1.25)
+        if (vieses.Contains("COMPRAR FORTE") && vieses.Contains("COMPRAR FRACO"))
+            return "COMPRAR";
+
+        if (vieses.Contains("COMPRAR FORTE") && vieses.Contains("MANTER"))
             return "COMPRAR FRACO";
 
-        return "MANTER";
-    }
+        if (vieses.Contains("COMPRAR") && vieses.Contains("COMPRAR FRACO"))
+            return "COMPRAR FRACO";
 
-    private double PontuarVies(string vies)
-    {
-        return vies switch
-        {
-            "COMPRAR FORTE" => 3,
-            "COMPRAR" => 2,
-            "COMPRAR FRACO" => 1,
-            "MANTER" => 0,
-            _ => 0
-        };
+        if (vieses.Contains("COMPRAR") && vieses.Contains("MANTER"))
+            return "COMPRAR FRACO";
+
+        // if (vieses.Contains("COMPRAR FRACO") && vieses.Contains("MANTER"))
+        //     return "MANTER";
+
+        return "MANTER";
     }
 
     // ==========================================
