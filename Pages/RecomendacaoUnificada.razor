@@ -60,11 +60,11 @@
                     <thead>
                         <tr>
                             <th>Ação</th>
-                            <th class="text-center">Viés Barsi</th>
-                            <th class="text-center">Viés Graham</th>
-                            <th class="text-center">Viés Geral</th>
-                            <th class="text-end">PM</th>
-                            <th class="text-end">BESST</th>
+                            <th class="text-center">Barsi</th>
+                            <th class="text-center">Graham</th>
+                            <th class="text-center">Geral</th>
+                            <th class="text-center">PM</th>
+                            <th class="text-center">BESST</th>
                         </tr>
                     </thead>
 
@@ -109,7 +109,7 @@
                                 </td>
 
                                 <!-- PREÇO DE MERCADO -->
-                                <td class="text-end">
+                                <td class="text-center">
                                     @if (acao.TemCotacao)
                                     {
                                         <strong>@FormatarMoeda(acao.PM)</strong>
@@ -160,7 +160,7 @@
                 </div>
 
                 <div>
-                    <span class="badge bg-gray text-dark">BEEST</span>
+                    <span class="badge bg-secondary text-dark">BEEST</span>
                     <span class="text-muted small ms-1">
                         Bancos, Energia, Saneamento, Saúde e Telecomunicações
                     </span>
@@ -246,78 +246,88 @@
         color: #000 !important;
     }
 
+   
+   
     /* TABELA MOBILE */
     @@media (max-width: 767.98px) {
 
         .acoes-responsive {
-            overflow-x: hidden !important;
+            overflow-x: auto !important;
             width: 100%;
         }
 
         .acoes-table {
-            width: 100% !important;
-            min-width: 0 !important;
-            table-layout: fixed;
+            width: 330px !important;
+            min-width: 330px !important;
+            table-layout: fixed !important;
             margin-bottom: 0;
+            border-collapse: collapse;
         }
-            /* Largura das colunas */
+            /* Larguras fixas das colunas */
             .acoes-table th:nth-child(1),
             .acoes-table td:nth-child(1) {
-                width: 18%;
+                width: 65px !important;
             }
 
             .acoes-table th:nth-child(2),
-            .acoes-table td:nth-child(2) {
-                width: 23%;
-            }
-
+            .acoes-table td:nth-child(2),
             .acoes-table th:nth-child(3),
-            .acoes-table td:nth-child(3) {
-                width: 23%;
-            }
-
+            .acoes-table td:nth-child(3),
             .acoes-table th:nth-child(4),
             .acoes-table td:nth-child(4) {
-                width: 23%;
+                width: 58px !important;
             }
 
             .acoes-table th:nth-child(5),
             .acoes-table td:nth-child(5) {
-                width: 13%;
-            }
-            /* Espaçamento */
-            .acoes-table th,
-            .acoes-table td {
-                padding: 0.65rem 0.15rem !important;
-                font-size: 10px;
+                width: 44px !important;
             }
 
+            .acoes-table th:nth-child(6),
+            .acoes-table td:nth-child(6) {
+                width: 47px !important;
+            }
+                /* Badge BESST compacto */
+                .acoes-table td:nth-child(6) .badge {
+                    width: auto !important;
+                    min-width: 0 !important;
+                    max-width: none !important;
+                    padding: 0.15rem 0.20rem !important;
+                    line-height: 1.1;
+                    white-space: nowrap !important;
+                }
+            /* Células */
+            .acoes-table th,
+            .acoes-table td {
+                padding: 0.4rem 0.10rem !important;
+                font-size: 9px !important;
+                vertical-align: middle;
+                text-align: center;
+            }
+                /* Nome da ação */
                 .acoes-table td:nth-child(1) {
+                    text-align: left;
                     white-space: normal;
                     overflow-wrap: anywhere;
                 }
-
+            /* Indicadores */
             .acoes-table .badge {
-                font-size: 9px;
-                padding: 0.3rem 0.2rem;
-                white-space: normal;
+                font-size: 8px !important;
+                padding: 0.25rem 0.15rem !important;
+                width: 100% !important;
+                max-width: 62px;
+                white-space: normal !important;
                 display: inline-block;
+                line-height: 1.15;
+                text-align: center;
+                overflow-wrap: normal;
             }
-
-            .acoes-table th:nth-child(5),
-            .acoes-table td:nth-child(5) {
-                font-size: 9px;
-            }
-
+            /* Cabeçalho */
             .acoes-table thead th {
                 white-space: normal !important;
-                overflow-wrap: break-word;
-                word-break: normal;
-                font-size: 9px;
+                font-size: 8px !important;
                 line-height: 1.2;
-                text-align: center;
-                vertical-align: middle;
-                padding: 0.5rem 0.1rem !important;
+                padding: 0.4rem 0.05rem !important;
             }
     }
 
